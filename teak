@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+
+<?php
+
+require_once(__DIR__ . '/vendor/autoload.php');
+
+use Symfony\Component\Console\Application;
+
+$application = new Application('Teak Documentation Generator');
+
+$application->add(new \Teak\Console\ClassReferenceGenerator());
+$application->add(new \Teak\Console\HookReferenceGenerator());
+
+$application->run();

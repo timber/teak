@@ -1,0 +1,28 @@
+{
+  "name": "timber/teak",
+  "type": "library",
+  "description": "Generate a Markdown reference documentation for PHP classes, optimized for WordPress projects",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Lukas Gaechter",
+      "email": "lukas.gaechter@mind.ch",
+      "homepage": "https://www.mind.ch"
+    }
+  ],
+  "require": {
+    "php": ">=7.0.0",
+    "symfony/filesystem": "^4.0",
+    "symfony/console": "^4.0",
+    "phpunit/phpunit": "^6",
+    "phpdocumentor/reflection-docblock": "^3.3",
+    "phpdocumentor/reflection": " ~2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Teak\\": "lib",
+      "Tests\\": "tests"
+    }
+  },
+  "minimum-stability": "alpha"
+}
