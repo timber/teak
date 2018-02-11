@@ -5,6 +5,7 @@ namespace Teak\Compiler\Class_;
 use Teak\Compiler\CompilerInterface;
 use Teak\Compiler\Method\Table as MethodsTable;
 use Teak\Compiler\Property\Table as PropertiesTable;
+use Teak\Compiler\Heading;
 use Teak\Reflection\ClassReflection;
 use Teak\Reflection\Reflection;
 
@@ -52,18 +53,18 @@ class ApiTable extends Reflection implements CompilerInterface
         $methods = $this->class->getMethods();
 
         if (!empty($properties) || !empty($methods)) {
-            $contents .= '## Overview' . self::PARAGRAPH;
+            $contents .= (new Heading('Overview', 2))->compile();
         }
 
         if (!empty($properties)) {
-            $contents .= '### Properties' . self::PARAGRAPH;
+            $contents .= (new Heading('Properties', 3))->compile();
 
             $paramsTable = new PropertiesTable($properties);
             $contents .= $paramsTable->compile();
         }
 
         if (!empty($methods)) {
-            $contents .= '### Methods' . self::PARAGRAPH;
+            $contents .= (new Heading('Methods', 3))->compile();
 
             $methodTable = new MethodsTable($methods);
             $contents .= $methodTable->compile();

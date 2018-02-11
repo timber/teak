@@ -9,6 +9,7 @@ use Teak\Compiler\Tag\Return_;
 use Teak\Compiler\Param\Table;
 use Teak\Compiler\Tag\Example;
 use Teak\Compiler\Tag\Summary;
+use Teak\Compiler\Heading;
 use Teak\Reflection\MethodReflection;
 
 /**
@@ -46,7 +47,7 @@ class Method implements CompilerInterface
             $name = '<del>' . $this->method->getName() . '</del>';
         }
 
-        $contents .= '### ' . $name . self::PARAGRAPH;
+        $contents .= (new Heading($name, 3))->compile();
 
         // Summary
         $contents .= (new Summary($this->method->getDocBlock()))->compile();

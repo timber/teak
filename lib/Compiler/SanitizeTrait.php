@@ -73,4 +73,13 @@ trait SanitizeTrait
     {
         return str_replace(PHP_EOL, ' ', $text);
     }
+
+    public function escapeMarkdownChars($text)
+    {
+        return str_replace(
+            ['_', '*'],
+            ["\_", "\*"],
+            $text
+        );
+    }
 }

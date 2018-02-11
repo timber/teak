@@ -117,7 +117,7 @@ class HookReference implements CompilerInterface
     public function compileHook($hook)
     {
         // Hook title
-        $this->contents .= '## ' . $hook['name'] . self::PARAGRAPH;
+        $this->contents .= (new Heading($hook['name'], 2))->compile();
 
         if (!$hook['docBlock']) {
             return;
