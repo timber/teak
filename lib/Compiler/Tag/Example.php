@@ -39,10 +39,6 @@ class Example implements CompilerInterface
             return $contents;
         }
 
-
-        if (empty($contents)) {
-            return '';
-        }
         $contents = trim($this->tag);
 
         // Remove possible code tag
