@@ -21,8 +21,8 @@ trait SanitizeTrait
         // Remove leading backslash
         $title = ltrim($title, '\\');
 
-        // Escape '\'
-        $title = str_replace('\\', '\\\\', $title);
+        // Escape '\', and add a zero-width-space (non-visible here in code)
+        $title = str_replace('\\', '\\\\​', $title);
 
         return $title;
     }
