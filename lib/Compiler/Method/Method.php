@@ -2,6 +2,7 @@
 
 namespace Teak\Compiler\Method;
 
+use phpDocumentor\Reflection\Php\Function_;
 use Teak\Compiler\CompilerInterface;
 use Teak\Compiler\Tag\Deprecated;
 use Teak\Compiler\Tag\Description;
@@ -25,7 +26,7 @@ class Method implements CompilerInterface
     /**
      * ClassMethodListCompiler constructor.
      *
-     * @param \phpDocumentor\Reflection\Php\Method $method
+     * @param \phpDocumentor\Reflection\Php\Method|Function_ $method
      */
     public function __construct($method)
     {

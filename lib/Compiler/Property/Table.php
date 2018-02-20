@@ -49,7 +49,7 @@ class Table implements CompilerInterface
         foreach ($this->properties as $param) {
             $contents .= '| $' . $param->getName() . ' | `'
                 . $this->escapePipe($param->getDocBlockType()) . '` | '
-                . $this->escapePipe($param->getDescription()) . ' |' . self::NEWLINE;
+                . $this->sanitizeTextForTable($param->getDescription()) . ' |' . self::NEWLINE;
         }
 
         $contents .= self::NEWLINE;

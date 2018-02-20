@@ -3,6 +3,7 @@
 namespace Teak\Reflection;
 
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
+use phpDocumentor\Reflection\Php\Function_;
 use phpDocumentor\Reflection\Php\Method;
 
 /**
@@ -13,7 +14,7 @@ class MethodReflection extends Reflection
     /**
      * FunctionReflection constructor.
      *
-     * @param Method $reflection
+     * @param Method|Function_ $reflection
      */
     public function __construct($reflection)
     {
@@ -40,7 +41,7 @@ class MethodReflection extends Reflection
             return null;
         }
 
-        return $this->getTag('return')->getDescription();
+        return trim($this->getTag('return')->getDescription());
     }
 
     /**

@@ -9,6 +9,7 @@ use Symfony\Component\Console\Application;
 $application = new Application('Teak Documentation Generator');
 
 $application->add(new \Teak\Console\ClassReferenceGenerator());
+$application->add(new \Teak\Console\FunctionReferenceGenerator());
 $application->add(new \Teak\Console\HookReferenceGenerator());
 
 $application->run();

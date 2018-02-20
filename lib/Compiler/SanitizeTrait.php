@@ -82,4 +82,12 @@ trait SanitizeTrait
             $text
         );
     }
+
+    public function sanitizeTextForTable($text)
+    {
+        $text = $this->removeLineBreaks($text);
+        $text = $this->escapePipe($text);
+
+        return $text;
+    }
 }

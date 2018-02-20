@@ -2,6 +2,7 @@
 
 namespace Teak\Compiler\Method;
 
+use phpDocumentor\Reflection\Php\Function_;
 use Teak\Compiler\CompilerInterface;
 use Teak\Compiler\SanitizeTrait;
 use Teak\Reflection\MethodReflection;
@@ -21,7 +22,7 @@ class Table implements CompilerInterface
     /**
      * Table constructor.
      *
-     * @param \Teak\Compiler\Method\Method[] $methods
+     * @param \phpDocumentor\Reflection\Php\Method[]|Function_[] $methods
      */
     public function __construct($methods)
     {
@@ -50,14 +51,14 @@ class Table implements CompilerInterface
 
         $contents = '';
 
-        $contents .= '| Name | Type | Returns/Description |' . PHP_EOL;
-        $contents .= '| --- | --- | --- |' . PHP_EOL;
+        $contents .= '| Name | Return Type | Summary/Returns |' . self::NEWLINE;
+        $contents .= '| --- | --- | --- |' . self::NEWLINE;
 
         foreach ($this->methods as $method) {
             $contents .= $this->compileMethod($method);
         }
 
-        return $contents;
+        return $contents . self::NEWLINE;
     }
 
     /**
@@ -73,8 +74,20 @@ class Table implements CompilerInterface
             $name = '<del>' . $name . '</del>';
         }
 
-        return '| [' . $name . '](#' . $this->sanitizeAnchor($method->getName()) . ')' . ' | '
-            . $this->sanitizeTypeList($method->getReturnType()) . ' | '
-            . $this->escapePipe($method->getReturnDescription()) . ' |' . PHP_EOL;
+        $return = '| [' . $name . '](#' . $this->sanitizeAnchor($method->getName()) . ')' . ' | '
+            . $this->sanitizeTypeList($method->getReturnType()) . ' | ';
+
+        if (!empty($method->getSummary())) {
+        	$return .= $this->sanitizeTextForTable($method->getSummary()) . '<br><br>';
+        }
+
+        if (!empty($method->getReturnDescription())) {
+	        $return .= '*Returns:* '
+	                   . $this->sanitizeTextForTable($method->getReturnDescription())
+	                   . ' |';
+        }
+
+
+        return $return . self::NEWLINE;
     }
 }

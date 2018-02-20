@@ -66,7 +66,7 @@ class Table implements CompilerInterface
 
             $contents .= '| $' . $param->getVariableName() . ' | `'
                 . $this->escapePipe($param->getType()) . '` | '
-                . $this->escapePipe($this->removeLineBreaks($description)) . ' |' . self::NEWLINE;
+                . $this->sanitizeTextForTable($description) . ' |' . self::NEWLINE;
         }
 
         $contents .= self::NEWLINE;
