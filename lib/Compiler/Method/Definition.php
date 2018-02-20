@@ -41,13 +41,13 @@ class Definition implements CompilerInterface
      */
     public function compile()
     {
-        $contents = '`';
+        $contents = '';
 
         if (empty($this->arguments)) {
             return $contents;
         }
 
-        $contents .= $this->method->getName() . '(';
+        $contents .= '`' . $this->method->getName() . '(';
 
         foreach ($this->arguments as $key => $argument) {
             if ($key > 0) {
