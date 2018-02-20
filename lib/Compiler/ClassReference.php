@@ -8,14 +8,12 @@ use Teak\Compiler\Class_\ParentList;
 use Teak\Compiler\Method\Method;
 use Teak\Compiler\Tag\Description;
 use Teak\Compiler\Tag\Example;
-use Teak\Compiler\Tag\Summary;
 use Teak\Reflection\ClassReflection;
-use Teak\Reflection\Reflection;
 
 /**
  * Class ClassReference
  */
-class ClassReference extends Reflection implements CompilerInterface
+class ClassReference implements CompilerInterface
 {
     /**
      * @var ClassReflection
@@ -47,14 +45,18 @@ class ClassReference extends Reflection implements CompilerInterface
     {
         $contents = '';
 
-        /**
-         * Mark text content until here as the description of the page.
-         *
-         * @link https://gohugo.io/content/summaries#user-defined-manual-summary-split
-         */
-        $contents .= '<!--more-->' . self::PARAGRAPH;
+        $description = (new Description($this->class->getDocBlock()))->compile();
 
-        $contents .= (new Description($this->class->getDocBlock()))->compile();
+        $contents .= $description;
+
+        if ( ! empty( $description ) ) {
+            /**
+             * Mark text content until here as the description of the page.
+             *
+             * @link https://gohugo.io/content/summaries#user-defined-manual-summary-split
+             */
+            $contents .= '<!--more-->' . self::PARAGRAPH;
+        }
 
         /**
          * TODO: test this out
