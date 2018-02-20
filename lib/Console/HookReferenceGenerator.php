@@ -30,17 +30,7 @@ class HookReferenceGenerator extends ReferenceGenerator
     {
         $projectFactory = \phpDocumentor\Reflection\Php\ProjectFactory::createInstance();
         $fs             = new Filesystem();
-        $contents       = '';
         $returns        = [];
-
-        $project = $projectFactory->create('Teak', $files);
-
-        // Get options
-        $type         = $input->getOption(self::OPT_HOOK_TYPE);
-        $outputFolder = $input->getOption(self::OPT_OUTPUT);
-
-        // Make sure there’s a trailing slash
-        $outputFolder = rtrim($outputFolder, '/') . '/';
 
         $types = array(
             'filter' => [
@@ -53,10 +43,28 @@ class HookReferenceGenerator extends ReferenceGenerator
             ],
         );
 
+        $project = $projectFactory->create('Teak', $files);
+
+        // Get options
+        $type         = $input->getOption(self::OPT_HOOK_TYPE);
+        $outputFolder = $input->getOption(self::OPT_OUTPUT);
+        $filename     = $input->getOption(self::OPT_FILENAME);
+
+        // Make sure there’s a trailing slash
+        $outputFolder = rtrim($outputFolder, '/') . '/';
+
         $title = $types[$type]['title'];
 
-        $frontMatter = new Yaml($title, 'hooks');
-        $contents .= $frontMatter->compile();
+        if (empty($filename)) {
+            $filename = $types[$type]['filename'];
+        }
+
+        // Use 'hooks' as default if default is not changed
+        $parent = 'reference' === $input->getOption(self::OPT_PARENT)
+            ? 'hooks'
+            : $input->getOption(self::OPT_PARENT);
+
+        $contents = (new Yaml($title, false, $parent))->compile();
 
         foreach ($project->getFiles() as $file) {
             $hookReference = new HookReference($file);
@@ -68,9 +76,9 @@ class HookReferenceGenerator extends ReferenceGenerator
             $returns[] = $contents;
         }
 
-        $filename = $input->getOption(self::OPT_FILE_PREFIX) . $types[$type]['filename'] . '.md';
+        $filename = $input->getOption(self::OPT_FILE_PREFIX) . $filename . '.md';
         $fs->dumpFile(getcwd() . '/' . $outputFolder . $filename, $contents);
 
-        return $returns;
+        return '';
     }
 }

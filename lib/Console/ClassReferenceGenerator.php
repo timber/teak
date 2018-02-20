@@ -47,10 +47,11 @@ class ClassReferenceGenerator extends ReferenceGenerator
                     continue;
                 }
 
-                $contents = '';
-
-                $frontMatter = new Yaml($class->getFqsen(), 'reference');
-                $contents .= $frontMatter->compile();
+                $contents = (new Yaml(
+                    $class->getFqsen(),
+                    $class->getName(),
+                    $input->getOption(self::OPT_PARENT)
+                ))->compile();
 
                 $classReference = new ClassReference($class);
                 $contents .= $classReference->compile();
@@ -63,6 +64,6 @@ class ClassReferenceGenerator extends ReferenceGenerator
             }
         }
 
-        return $returns;
+        return '';
     }
 }

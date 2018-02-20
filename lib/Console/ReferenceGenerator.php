@@ -13,11 +13,16 @@ use Symfony\Component\Console\Input\InputOption;
  */
 abstract class ReferenceGenerator extends Command
 {
+    // Arguments
     const ARG_FILES = 'files';
+
+    // Options
     const OPT_OUTPUT = 'output';
+    const OPT_FILENAME = 'filename';
     const OPT_FILE_PREFIX = 'file_prefix';
     const OPT_IGNORE = 'ignore';
     const OPT_HOOK_TYPE = 'hook_type';
+    const OPT_PARENT = 'parent';
 
     /**
      * @param InputInterface  $input
@@ -42,17 +47,24 @@ abstract class ReferenceGenerator extends Command
                 'Output destination.'
             )
             ->addOption(
-                self::OPT_FILE_PREFIX,
-                'p',
-                InputOption::VALUE_REQUIRED,
-                'File prefix',
+                self::OPT_IGNORE,
+                'i',
+                InputOption::VALUE_OPTIONAL,
+                'Directories to ignore',
                 ''
             )
             ->addOption(
-                self::OPT_IGNORE,
-                'i',
-                InputOption::VALUE_REQUIRED,
-                'Directories to ignore',
+                self::OPT_FILENAME,
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'File name',
+                ''
+            )
+            ->addOption(
+                self::OPT_FILE_PREFIX,
+                'p',
+                InputOption::VALUE_OPTIONAL,
+                'File prefix',
                 ''
             )
             ->addOption(
@@ -61,6 +73,13 @@ abstract class ReferenceGenerator extends Command
                 InputOption::VALUE_OPTIONAL,
                 'Hook type ("filter" or "action")',
                 null
+            )
+            ->addOption(
+                self::OPT_PARENT,
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'The parent string to use for the Front Matter block',
+                'reference'
             );
     }
 
@@ -72,9 +91,8 @@ abstract class ReferenceGenerator extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $files        = $input->getArgument(self::ARG_FILES);
-        $outputFolder = $input->getOption(self::OPT_OUTPUT);
-        $ignore       = explode(',', $input->getOption(self::OPT_IGNORE));
+        $files  = $input->getArgument(self::ARG_FILES);
+        $ignore = explode(',', $input->getOption(self::OPT_IGNORE));
 
         if (is_dir($files)) {
             $files = $this->getFilesInFolder($files, $ignore);

@@ -31,6 +31,7 @@ trait SanitizeTrait
      * Replace pipe character with HTML character.
      *
      * @param string $text
+     *
      * @return mixed
      */
     public function escapePipe($text)
@@ -87,6 +88,42 @@ trait SanitizeTrait
     {
         $text = $this->removeLineBreaks($text);
         $text = $this->escapePipe($text);
+
+        return $text;
+    }
+
+    /**
+     * Slugifies text.
+     *
+     * @link https://stackoverflow.com/a/2955878/1059980
+     *
+     * @param string $text Text to slugify
+     *
+     * @return string
+     */
+    public function slugify($text)
+    {
+        // replace non letter or digits by -
+        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+
+        // transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+
+        // trim
+        $text = trim($text, '-');
+
+        // remove duplicate -
+        $text = preg_replace('~-+~', '-', $text);
+
+        // lowercase
+        $text = strtolower($text);
+
+        if (empty($text)) {
+            return 'n-a';
+        }
 
         return $text;
     }

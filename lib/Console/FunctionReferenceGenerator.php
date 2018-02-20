@@ -6,6 +6,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Teak\Compiler\FrontMatter\Yaml;
 use Teak\Compiler\Heading;
 use Teak\Compiler\Method\Method;
 use Teak\Compiler\Method\Table;
@@ -38,9 +39,10 @@ class FunctionReferenceGenerator extends ReferenceGenerator
         $fs = new Filesystem();
 
         $returns = [];
-        $contents = '';
 
-        $contents .= (new Heading('Functions', 1))->compile();
+        $contents = (new Yaml('Functions',
+            $input->getOption(self::OPT_PARENT)
+        ))->compile();
 
         foreach ($project->getFiles() as $file) {
             $functions = $file->getFunctions();

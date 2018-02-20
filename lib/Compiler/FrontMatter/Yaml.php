@@ -15,11 +15,13 @@ class Yaml implements CompilerInterface
     use SanitizeTrait;
 
     protected $title;
+    protected $linkTitle;
     protected $parent;
 
-    public function __construct($title, $parent = '')
+    public function __construct($title, $linkTitle = false, $parent = '')
     {
         $this->title = $this->sanitizeTitle($title);
+        $this->linkTitle = $this->sanitizeTitle($linkTitle);
         $this->parent = $parent;
     }
 
@@ -42,11 +44,19 @@ class Yaml implements CompilerInterface
 
         $contents .= 'title: "' . $this->title . '"' . self::NEWLINE;
 
+        if ($this->linkTitle) {
+            $contents .= 'linktitle: "' . $this->linkTitle . '"' . self::NEWLINE;
+        }
+
+        $contents .= 'is_reference: true' . self::NEWLINE;
+
         if (!empty($this->parent)) {
+        	$identifier = $this->slugify($this->parent) . '-' . $this->slugify($this->title);
+
             $contents .= 'menu:' . self::NEWLINE
                 . '  main:' . self::NEWLINE
-                . '    parent: "' . $this->parent . '"'
-                . self::NEWLINE;
+                . '    parent: "' . $this->parent . '"' . self::NEWLINE
+                . '    identifier: "' . $identifier . '"' . self::NEWLINE;
         }
 
         $contents .= '---';
