@@ -34,7 +34,7 @@ class Description implements CompilerInterface
             return $contents;
         }
 
-        $contents .= $this->description;
+        $contents .= trim($this->description);
 
         return $contents . self::PARAGRAPH;
     }

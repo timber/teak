@@ -39,11 +39,11 @@ class Example implements CompilerInterface
             return $contents;
         }
 
-        $contents = $this->tag;
 
         if (empty($contents)) {
             return '';
         }
+        $contents = trim($this->tag);
 
         // Remove possible code tag
         if (strpos($contents, '<code>') !== false) {
