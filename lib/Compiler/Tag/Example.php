@@ -51,7 +51,7 @@ class Example implements CompilerInterface
             $contents = current(array_slice(explode('<code>', $contents), 1));
         }
 
-        $contents = str_replace('```php', '**PHP**' . self::PARAGRAPH . '```php' . PHP_EOL . '<?php', $contents);
+        $contents = str_replace('```php', '**PHP**' . self::PARAGRAPH . '```php', $contents);
         $contents = str_replace('```twig', '**Twig**' . self::PARAGRAPH . '```twig', $contents);
         $contents = str_replace('```html', '**HTML**' . self::PARAGRAPH . '```html', $contents);
 
