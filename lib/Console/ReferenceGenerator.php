@@ -18,10 +18,10 @@ abstract class ReferenceGenerator extends Command
 
     // Options
     const OPT_OUTPUT = 'output';
+    const OPT_IGNORE = 'ignore';
     const OPT_FILE_NAME = 'file_name';
     const OPT_FILE_PREFIX = 'file_prefix';
     const OPT_FILE_TITLE = 'file_title';
-    const OPT_IGNORE = 'ignore';
     const OPT_FRONT_MATTER_STYLE = 'front_matter_style';
     const OPT_FRONT_MATTER_PARENT = 'front_matter_parent';
 
@@ -39,7 +39,7 @@ abstract class ReferenceGenerator extends Command
             ->addArgument(
                 self::ARG_FILES,
                 InputArgument::REQUIRED,
-                'Class files or source directory'
+                'Source directory or single PHP file'
             )
             ->addOption(
                 self::OPT_OUTPUT,
@@ -50,42 +50,42 @@ abstract class ReferenceGenerator extends Command
             ->addOption(
                 self::OPT_IGNORE,
                 'i',
-                InputOption::VALUE_OPTIONAL,
-                'Directories to ignore',
-                ''
+                InputOption::VALUE_REQUIRED,
+                'List of directories to ignore',
+                null
             )
             ->addOption(
                 self::OPT_FILE_NAME,
                 null,
-                InputOption::VALUE_OPTIONAL,
-                'File name',
-                ''
+                InputOption::VALUE_REQUIRED,
+                'File Name (the .md extension is appended automatically)',
+                null
             )
             ->addOption(
                 self::OPT_FILE_PREFIX,
-                'p',
-                InputOption::VALUE_OPTIONAL,
-                'File prefix',
-                ''
+                null,
+                InputOption::VALUE_REQUIRED,
+                'File Prefix',
+                null
             )
             ->addOption(
                 self::OPT_FILE_TITLE,
                 null,
-                InputOption::VALUE_OPTIONAL,
-                'File Title (Heading 1 in the Markdown file). Only applicable to hooks and functions reference.',
-                ''
+                InputOption::VALUE_REQUIRED,
+                'File Title (Heading 1 in the Markdown document). Only applicable to hooks and functions reference.',
+                null
             )
             ->addOption(
                 self::OPT_FRONT_MATTER_STYLE,
                 null,
-                InputOption::VALUE_OPTIONAL,
-                'The front matter type. Currently, only "YAML" is supported. Will output a Heading 1 if not provided.',
+                InputOption::VALUE_REQUIRED,
+                'Front Matter type. Currently, only "YAML" is supported (Will output a Heading 1 if not provided).',
                 null
             )
             ->addOption(
                 self::OPT_FRONT_MATTER_PARENT,
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_REQUIRED,
                 'The parent string to use for the Front Matter block',
                 'reference'
             );

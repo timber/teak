@@ -2,11 +2,12 @@
 
 namespace Teak\Console;
 
-use Symfony\Component\Filesystem\Filesystem;
 use Teak\Compiler\FrontMatter\Yaml;
 use Teak\Compiler\Heading;
 use Teak\Compiler\HookReference;
 
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -23,7 +24,9 @@ class HookReferenceGenerator extends ReferenceGenerator
     {
         parent::configure();
 
-        $this->setName('generate:hook-reference');
+        $this
+            ->setName('generate:hook-reference')
+            ->setDescription('Generate a reference of WordPress hooks');
 
         $this
             ->addOption(

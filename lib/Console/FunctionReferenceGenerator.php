@@ -20,7 +20,9 @@ class FunctionReferenceGenerator extends ReferenceGenerator
     {
         parent::configure();
 
-        $this->setName('generate:function-reference');
+        $this
+            ->setName('generate:function-reference')
+            ->setDescription('Generate a reference of global functions');
     }
 
     /**
