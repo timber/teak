@@ -1,7 +1,7 @@
 {
   "name": "timber/teak",
   "type": "library",
-  "description": "Generate a Markdown reference documentation for PHP classes, optimized for WordPress projects",
+  "description": "Generate a Markdown reference documentation for PHP projects, optimized for WordPress",
   "license": "MIT",
   "authors": [
     {
