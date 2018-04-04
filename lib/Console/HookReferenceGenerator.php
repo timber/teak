@@ -15,11 +15,31 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class HookReferenceGenerator extends ReferenceGenerator
 {
+    // Options
+    const OPT_HOOK_TYPE = 'hook_type';
+    const OPT_HOOK_PREFIX = 'hook_prefix';
+
     protected function configure()
     {
         parent::configure();
 
         $this->setName('generate:hook-reference');
+
+        $this
+            ->addOption(
+                self::OPT_HOOK_TYPE,
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Hook type ("filter" or "action")',
+                null
+            )
+            ->addOption(
+                self::OPT_HOOK_PREFIX,
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Hook prefix (to select only hooks with a certain prefix)',
+                null
+            );
     }
 
     /**

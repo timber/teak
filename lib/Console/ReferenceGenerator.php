@@ -23,8 +23,6 @@ abstract class ReferenceGenerator extends Command
     const OPT_FILE_TITLE = 'file_title';
     const OPT_FRONT_MATTER = 'front_matter';
     const OPT_IGNORE = 'ignore';
-    const OPT_HOOK_TYPE = 'hook_type';
-    const OPT_HOOK_PREFIX = 'hook_prefix';
     const OPT_PARENT = 'parent';
 
     /**
@@ -82,20 +80,6 @@ abstract class ReferenceGenerator extends Command
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'The front matter type. Currently, only "YAML" is supported. Will output a Heading 1 if not provided.',
-                null
-            )
-            ->addOption(
-                self::OPT_HOOK_TYPE,
-                null,
-                InputOption::VALUE_OPTIONAL,
-                'Hook type ("filter" or "action")',
-                null
-            )
-            ->addOption(
-                self::OPT_HOOK_PREFIX,
-                null,
-                InputOption::VALUE_OPTIONAL,
-                'Hook prefix (to select only hooks with a certain prefix)',
                 null
             )
             ->addOption(
