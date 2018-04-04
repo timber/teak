@@ -51,7 +51,7 @@ class Yaml implements CompilerInterface
         $contents .= 'is_reference: true' . self::NEWLINE;
 
         if (!empty($this->parent)) {
-        	$identifier = $this->slugify($this->parent) . '-' . $this->slugify($this->title);
+            $identifier = $this->slugify($this->parent) . '-' . $this->slugify($this->title);
 
             $contents .= 'menu:' . self::NEWLINE
                 . '  main:' . self::NEWLINE

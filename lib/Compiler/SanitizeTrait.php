@@ -24,6 +24,8 @@ trait SanitizeTrait
         // Escape '\', and add a zero-width-space (non-visible here in code)
         $title = str_replace('\\', '\\\\​', $title);
 
+        $title = $this->escapeMarkdownChars($title);
+
         return $title;
     }
 

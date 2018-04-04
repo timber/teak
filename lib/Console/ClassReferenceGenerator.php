@@ -47,11 +47,15 @@ class ClassReferenceGenerator extends ReferenceGenerator
                     continue;
                 }
 
-                $contents = (new Yaml(
-                    $class->getFqsen(),
-                    $class->getName(),
-                    $input->getOption(self::OPT_PARENT)
-                ))->compile();
+                $contents = '';
+
+                if ('YAML' === $input->getOption(self::OPT_FRONT_MATTER)) {
+                    $contents = (new Yaml(
+                        $class->getFqsen(),
+                        $class->getName(),
+                        $input->getOption(self::OPT_PARENT)
+                    ))->compile();
+                }
 
                 $classReference = new ClassReference($class);
                 $contents .= $classReference->compile();
@@ -64,6 +68,6 @@ class ClassReferenceGenerator extends ReferenceGenerator
             }
         }
 
-        return '';
+        // return '';
     }
 }

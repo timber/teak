@@ -31,18 +31,25 @@ class FunctionReferenceGenerator extends ReferenceGenerator
     public function handleClassCollection($input, $output, $files)
     {
         $projectFactory = \phpDocumentor\Reflection\Php\ProjectFactory::createInstance();
-        $project = $projectFactory->create('Teak', $files);
+        $project        = $projectFactory->create('Teak', $files);
+        $fs             = new Filesystem();
+        $returns        = [];
+        $contents       = '';
 
         // Make sure there’s a trailing slash
         $outputFolder = rtrim($input->getOption(self::OPT_OUTPUT), '/') . '/';
 
-        $fs = new Filesystem();
+        $title = !empty($input->getOption(self::OPT_FILE_TITLE))
+            ? $input->getOption(self::OPT_FILE_TITLE)
+            : 'Functions';
 
-        $returns = [];
+        $frontMatter = $input->getOption(self::OPT_FRONT_MATTER);
 
-        $contents = (new Yaml('Functions',
-            $input->getOption(self::OPT_PARENT)
-        ))->compile();
+        if (empty($frontMatter)) {
+            $contents .= (new Heading($title, 1))->compile();
+        } elseif ('YAML' === $frontMatter) {
+            $contents .= (new Yaml($title, $input->getOption(self::OPT_PARENT)))->compile();
+        }
 
         foreach ($project->getFiles() as $file) {
             $functions = $file->getFunctions();
@@ -61,7 +68,12 @@ class FunctionReferenceGenerator extends ReferenceGenerator
             }
         }
 
-        $filename = $input->getOption(self::OPT_FILE_PREFIX) . 'functions.md';
+        $filename = !empty($input->getOption(self::OPT_FILE_NAME))
+            ? $input->getOption(self::OPT_FILE_NAME)
+            : 'functions';
+
+        // Add prefix
+        $filename = $input->getOption(self::OPT_FILE_PREFIX) .  $filename . '.md';
 
         $fs->dumpFile(getcwd() . '/' . $outputFolder . $filename, $contents);
 

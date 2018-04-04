@@ -4,6 +4,7 @@ namespace Teak\Console;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Teak\Compiler\FrontMatter\Yaml;
+use Teak\Compiler\Heading;
 use Teak\Compiler\HookReference;
 
 use Symfony\Component\Console\Input\InputInterface;
@@ -31,6 +32,7 @@ class HookReferenceGenerator extends ReferenceGenerator
         $projectFactory = \phpDocumentor\Reflection\Php\ProjectFactory::createInstance();
         $fs             = new Filesystem();
         $returns        = [];
+        $contents       = '';
 
         $types = array(
             'filter' => [
@@ -48,27 +50,30 @@ class HookReferenceGenerator extends ReferenceGenerator
         // Get options
         $type         = $input->getOption(self::OPT_HOOK_TYPE);
         $outputFolder = $input->getOption(self::OPT_OUTPUT);
-        $filename     = $input->getOption(self::OPT_FILENAME);
 
         // Make sure there’s a trailing slash
         $outputFolder = rtrim($outputFolder, '/') . '/';
-
-        $title = $types[$type]['title'];
-
-        if (empty($filename)) {
-            $filename = $types[$type]['filename'];
-        }
 
         // Use 'hooks' as default if default is not changed
         $parent = 'reference' === $input->getOption(self::OPT_PARENT)
             ? 'hooks'
             : $input->getOption(self::OPT_PARENT);
 
-        $contents = (new Yaml($title, false, $parent))->compile();
+        $title = !empty($input->getOption(self::OPT_FILE_TITLE))
+            ? $input->getOption(self::OPT_FILE_TITLE)
+            : $types[$type]['title'];
+
+        $frontMatter = $input->getOption(self::OPT_FRONT_MATTER);
+
+        if (empty($frontMatter)) {
+            $contents = (new Heading($title, 1))->compile();
+        } elseif ('YAML' === $frontMatter) {
+            $contents = (new Yaml($title, false, $parent))->compile();
+        }
 
         foreach ($project->getFiles() as $file) {
             $hookReference = new HookReference($file);
-            $hookReference->setHookPrefix('timber');
+            $hookReference->setHookPrefix($input->getOption(self::OPT_HOOK_PREFIX));
             $hookReference->setHookType($type);
 
             $contents .= $hookReference->compile();
@@ -76,9 +81,15 @@ class HookReferenceGenerator extends ReferenceGenerator
             $returns[] = $contents;
         }
 
+        $filename = !empty($input->getOption(self::OPT_FILE_NAME))
+            ? $input->getOption(self::OPT_FILE_NAME)
+            : $types[$type]['filename'];
+
+        // Add prefix
         $filename = $input->getOption(self::OPT_FILE_PREFIX) . $filename . '.md';
+
         $fs->dumpFile(getcwd() . '/' . $outputFolder . $filename, $contents);
 
-        return '';
+        //return '';
     }
 }
