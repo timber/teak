@@ -21,9 +21,9 @@ abstract class ReferenceGenerator extends Command
     const OPT_FILE_NAME = 'file_name';
     const OPT_FILE_PREFIX = 'file_prefix';
     const OPT_FILE_TITLE = 'file_title';
-    const OPT_FRONT_MATTER = 'front_matter';
     const OPT_IGNORE = 'ignore';
-    const OPT_PARENT = 'parent';
+    const OPT_FRONT_MATTER_STYLE = 'front_matter_style';
+    const OPT_FRONT_MATTER_PARENT = 'front_matter_parent';
 
     /**
      * @param InputInterface  $input
@@ -76,14 +76,14 @@ abstract class ReferenceGenerator extends Command
                 ''
             )
             ->addOption(
-                self::OPT_FRONT_MATTER,
+                self::OPT_FRONT_MATTER_STYLE,
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'The front matter type. Currently, only "YAML" is supported. Will output a Heading 1 if not provided.',
                 null
             )
             ->addOption(
-                self::OPT_PARENT,
+                self::OPT_FRONT_MATTER_PARENT,
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'The parent string to use for the Front Matter block',

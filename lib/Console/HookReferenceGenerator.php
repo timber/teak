@@ -75,15 +75,15 @@ class HookReferenceGenerator extends ReferenceGenerator
         $outputFolder = rtrim($outputFolder, '/') . '/';
 
         // Use 'hooks' as default if default is not changed
-        $parent = 'reference' === $input->getOption(self::OPT_PARENT)
+        $parent = 'reference' === $input->getOption(self::OPT_FRONT_MATTER_PARENT)
             ? 'hooks'
-            : $input->getOption(self::OPT_PARENT);
+            : $input->getOption(self::OPT_FRONT_MATTER_PARENT);
 
         $title = !empty($input->getOption(self::OPT_FILE_TITLE))
             ? $input->getOption(self::OPT_FILE_TITLE)
             : $types[$type]['title'];
 
-        $frontMatter = $input->getOption(self::OPT_FRONT_MATTER);
+        $frontMatter = $input->getOption(self::OPT_FRONT_MATTER_STYLE);
 
         if (empty($frontMatter)) {
             $contents = (new Heading($title, 1))->compile();

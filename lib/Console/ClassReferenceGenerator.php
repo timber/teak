@@ -49,11 +49,11 @@ class ClassReferenceGenerator extends ReferenceGenerator
 
                 $contents = '';
 
-                if ('YAML' === $input->getOption(self::OPT_FRONT_MATTER)) {
+                if ('YAML' === $input->getOption(self::OPT_FRONT_MATTER_STYLE)) {
                     $contents = (new Yaml(
                         $class->getFqsen(),
                         $class->getName(),
-                        $input->getOption(self::OPT_PARENT)
+                        $input->getOption(self::OPT_FRONT_MATTER_PARENT)
                     ))->compile();
                 }
 
