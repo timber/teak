@@ -119,10 +119,18 @@ class HookReference implements CompilerInterface
             $index ++;
         }
 
-        // Check for a filter with variable name ("filter_name_{$suffix}")
-        while (!in_array($tokens[$key + $index], [',', '\'', '"'], true)) {
+        /**
+         * Check for a variable hook.
+         *
+         * Example: "filter_name_{$suffix}"
+         */
+        while (!in_array($tokens[$key + $index], [',', '\'', '"', ')'], true)) {
             if (is_array($tokens[$key + $index])) {
-                $name .= $this->cleanToken($tokens[$key + $index][1]);
+                $append = $this->cleanToken($tokens[$key + $index][1]);
+
+                if (!in_array($append, [' ', ')'])) {
+                    $name .= $append;
+                }
             } else {
                 $name .= $tokens[$key + $index];
             }
