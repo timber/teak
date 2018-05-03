@@ -48,6 +48,8 @@ class HookReference implements CompilerInterface
     private function parse()
     {
         $tokens = $this->getTokens();
+        $index  = 0;
+        $lastIndex = 0;
 
         foreach ($tokens as $key => $entry) {
             if (!is_array($entry)) {
@@ -72,10 +74,31 @@ class HookReference implements CompilerInterface
                 if ($this->isValidHook($hookName)) {
                     $hookType = $this->getHookType($contents);
 
-                    $this->hooks[$hookType][] = [
-                        'name' => $hookName,
-                        'docBlock' => $this->lastDocBlock,
-                    ];
+                    if (!empty($this->lastDocBlock)) {
+                        $lastIndex = $index;
+
+                        $this->hooks[$hookType][$index] = [
+                            'name' => $hookName,
+                            'docBlock' => $this->lastDocBlock,
+                            'variations' => [],
+                        ];
+                    } else {
+                        /**
+                         * Check for a repeating hook with more parameters.
+                         *
+                         * E.g.
+                         * - namespace/action/status/{$status}
+                         * - namespace/action/status/{$status}/{$id}
+                         *
+                         * Add the repeating hook as a variation of the first hook.
+                         */
+                        if (!empty(strstr($hookName, $this->hooks[$hookType][$lastIndex]['name']))) {
+                            $this->hooks[$hookType][$lastIndex]['variations'][] = $hookName;
+                        }
+                    }
+
+                    $index++;
+                    $this->lastDocBlock = null;
                 }
             }
         }
@@ -97,10 +120,14 @@ class HookReference implements CompilerInterface
         }
 
         // Check for a filter with variable name ("filter_name_{$suffix}")
-        if ('_' === substr($name, -1, 1) && ('{' === $tokens[$key + $index] || '{' === $tokens[$key + $index][1])) {
-            $name .= '{';
-            $name .= $tokens[$key + $index + 1][1];
-            $name .= '}';
+        while (!in_array($tokens[$key + $index], [',', '\'', '"'], true)) {
+            if (is_array($tokens[$key + $index])) {
+                $name .= $this->cleanToken($tokens[$key + $index][1]);
+            } else {
+                $name .= $tokens[$key + $index];
+            }
+
+            $index++;
         }
 
         return $name;
@@ -118,6 +145,9 @@ class HookReference implements CompilerInterface
     {
         // Hook title
         $this->contents .= (new Heading($hook['name'], 2))->compile();
+
+        // Hook Variations
+        $this->contents .= (new Hook\Variation($hook))->compile();
 
         if (!$hook['docBlock']) {
             return;

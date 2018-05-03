@@ -140,6 +140,22 @@ function my_method( $param1 = 'value', $param2 = true ) {}
 
 Teak supports [parameters that are arrays](https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/php/#1-1-parameters-that-are-arrays).
 
+### Hook Variations
+
+Sometimes you’ll have two hooks that follow each other and do basically the same, but allow you to make the hook apply only on certain conditions:
+
+```php
+/**
+ * Fires on a specific processing status.
+ * 
+ * The status can be one of the following: `success`, `error` or `fail`.
+ */
+do_action("myplugin/process/status/{$status}");
+do_action("myplugin/process/status/{$status}/{$action}");
+```
+
+In this example, you’d have a variable `$status` and an `$action`. The first action is triggered when you use it with a certain status, the second action would be triggered if you use a certain status and a certain action. Teak will list these hook variations under the same hook. Because of this, you only need to define a DocBlock for the first hook.
+
 ## Limitations
 
 This compiler is not a full implementation of phpDocumentor. Rather, it tries to make code documentation that follows the [WordPress PHP Documentation Standards](https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/php/) more readable, and less techy. Not all [official tags](https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/php/#phpdoc-tags) are considered yet.
