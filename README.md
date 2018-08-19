@@ -44,7 +44,7 @@ vendor/bin/teak generate:class-reference ./lib/Post.php --output ./docs/referenc
 The Function Reference Generator will search all the files for global functions and output them in a single Markdown file. 
 
 ```bash
-vendor/bin/teak generate:hook-reference ./lib/ --output ./docs/
+vendor/bin/teak generate:function-reference ./lib/ --output ./docs/
 ```
 
 ### Generate a hook reference
@@ -150,8 +150,8 @@ Sometimes you’ll have two hooks that follow each other and do basically the sa
  * 
  * The status can be one of the following: `success`, `error` or `fail`.
  */
-do_action("myplugin/process/status/{$status}");
-do_action("myplugin/process/status/{$status}/{$action}");
+do_action( "myplugin/process/status/{$status}" );
+do_action( "myplugin/process/status/{$status}/{$action}" );
 ```
 
 In this example, you’d have a variable `$status` and an `$action`. The first action is triggered when you use it with a certain status, the second action would be triggered if you use a certain status and a certain action. Teak will list these hook variations under the same hook. Because of this, you only need to define a DocBlock for the first hook.
@@ -167,6 +167,7 @@ Contributions are very welcome.
 ## Roadmap
 
 - CLI: accept a list of files.
+- Support nested array arguments
 - Add support for [Inline Tags](http://docs.phpdoc.org/references/phpdoc/inline-tags/index.html).
 - Add tests.
 - Optimize linking between Markdown documents.
