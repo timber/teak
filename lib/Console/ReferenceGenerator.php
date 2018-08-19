@@ -87,7 +87,7 @@ abstract class ReferenceGenerator extends Command
                 null,
                 InputOption::VALUE_REQUIRED,
                 'The parent string to use for the Front Matter block',
-                'reference'
+                null
             );
     }
 

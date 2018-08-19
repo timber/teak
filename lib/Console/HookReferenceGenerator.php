@@ -91,7 +91,7 @@ class HookReferenceGenerator extends ReferenceGenerator
         if (empty($frontMatter)) {
             $contents = (new Heading($title, 1))->compile();
         } elseif ('YAML' === $frontMatter) {
-            $contents = (new Yaml($title, false, $parent))->compile();
+            $contents = (new Yaml($title, null, $parent))->compile();
         }
 
         foreach ($project->getFiles() as $file) {

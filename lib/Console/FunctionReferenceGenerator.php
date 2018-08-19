@@ -50,7 +50,7 @@ class FunctionReferenceGenerator extends ReferenceGenerator
         if (empty($frontMatter)) {
             $contents .= (new Heading($title, 1))->compile();
         } elseif ('YAML' === $frontMatter) {
-            $contents .= (new Yaml($title, $input->getOption(self::OPT_FRONT_MATTER_PARENT)))->compile();
+            $contents .= (new Yaml($title, null, $input->getOption(self::OPT_FRONT_MATTER_PARENT)))->compile();
         }
 
         foreach ($project->getFiles() as $file) {

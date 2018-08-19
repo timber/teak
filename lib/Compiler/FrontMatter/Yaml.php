@@ -18,10 +18,10 @@ class Yaml implements CompilerInterface
     protected $linkTitle;
     protected $parent;
 
-    public function __construct($title, $linkTitle = false, $parent = '')
+    public function __construct($title, $linkTitle = null, $parent = '')
     {
         $this->title = $this->sanitizeTitle($title);
-        $this->linkTitle = $this->sanitizeTitle($linkTitle);
+        $this->linkTitle = !empty($linkTitle) ? $this->sanitizeTitle($linkTitle) : null;
         $this->parent = $parent;
     }
 
@@ -44,7 +44,7 @@ class Yaml implements CompilerInterface
 
         $contents .= 'title: "' . $this->title . '"' . self::NEWLINE;
 
-        if ($this->linkTitle) {
+        if (!empty($this->linkTitle)) {
             $contents .= 'linktitle: "' . $this->linkTitle . '"' . self::NEWLINE;
         }
 
