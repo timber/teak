@@ -47,8 +47,8 @@ class Table implements CompilerInterface
         $contents .= '| --- | --- | --- |' . self::NEWLINE;
 
         foreach ($this->properties as $param) {
-            $contents .= '| $' . $param->getName() . ' | `'
-                . $this->escapePipe($param->getDocBlockType()) . '` | '
+            $contents .= '| $' . $param->getName() . ' | '
+                . $this->sanitizeTypeList($param->getDocBlockType()) . ' | '
                 . $this->sanitizeTextForTable($param->getDescription()) . ' |' . self::NEWLINE;
         }
 
