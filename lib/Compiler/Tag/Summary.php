@@ -34,7 +34,7 @@ class Summary implements CompilerInterface
             return $contents;
         }
 
-        $contents .= '<p class="summary">' . trim($this->summary) . '</p>' . self::PARAGRAPH;
+        $contents .= trim($this->summary) . self::PARAGRAPH;
 
         return $contents;
     }
