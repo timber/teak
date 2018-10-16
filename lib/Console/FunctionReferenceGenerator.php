@@ -2,6 +2,7 @@
 
 namespace Teak\Console;
 
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,9 +30,13 @@ class FunctionReferenceGenerator extends ReferenceGenerator
      * @param InputInterface  $input
      * @param OutputInterface $output
      * @param array           $files
+     *
+     * @return string|array
      */
     public function handleClassCollection($input, $output, $files)
     {
+        $output->writeln('<info>Generate Function Reference for ' . $input->getArgument(self::ARG_FILES) . '</info>');
+
         $projectFactory = \phpDocumentor\Reflection\Php\ProjectFactory::createInstance();
         $project        = $projectFactory->create('Teak', $files);
         $fs             = new Filesystem();
@@ -77,8 +82,14 @@ class FunctionReferenceGenerator extends ReferenceGenerator
         // Add prefix
         $filename = $input->getOption(self::OPT_FILE_PREFIX) .  $filename . '.md';
 
-        $fs->dumpFile(getcwd() . '/' . $outputFolder . $filename, $contents);
+        $filepath = getcwd() . '/' . $outputFolder . $filename;
 
-        // return $returns;
+        try {
+            $fs->dumpFile($filepath, $contents);
+        } catch (IOException $e) {
+            return $e->getMessage();
+        }
+
+        return count($returns) . ' functions dumped into ' . $filepath;
     }
 }

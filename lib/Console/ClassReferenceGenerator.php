@@ -2,6 +2,7 @@
 
 namespace Teak\Console;
 
+use Symfony\Component\Filesystem\Exception\IOException;
 use Teak\Compiler\ClassReference;
 use Teak\Compiler\FrontMatter\Yaml;
 use Teak\Reflection\ClassReflection;
@@ -28,9 +29,13 @@ class ClassReferenceGenerator extends ReferenceGenerator
      * @param InputInterface  $input
      * @param OutputInterface $output
      * @param array           $files
+     *
+     * @return string|array
      */
     protected function handleClassCollection($input, $output, $files)
     {
+        $output->writeln('<info>Generate Class Reference for ' . $input->getArgument(self::ARG_FILES) . '</info>');
+
         $projectFactory = \phpDocumentor\Reflection\Php\ProjectFactory::createInstance();
         $project = $projectFactory->create('Teak', $files);
 
@@ -63,13 +68,18 @@ class ClassReferenceGenerator extends ReferenceGenerator
                 $contents .= $classReference->compile();
 
                 $filename = $input->getOption(self::OPT_FILE_PREFIX) . mb_strtolower($class->getName()) . '.md';
+                $filepath = $outputFolder . $filename;
 
-                $fs->dumpFile(getcwd() . '/' . $outputFolder . $filename, $contents);
+                try {
+                    $fs->dumpFile(getcwd() . '/' . $filepath, $contents);
+                } catch (IOException $e) {
+                    $returns[] = $e->getMessage();
+                }
 
-                $returns[] = $contents;
+                $returns[] = 'Created ' . $filepath;
             }
         }
 
-        // return '';
+        return $returns;
     }
 }

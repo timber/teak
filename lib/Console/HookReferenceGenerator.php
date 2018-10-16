@@ -2,6 +2,7 @@
 
 namespace Teak\Console;
 
+use Symfony\Component\Filesystem\Exception\IOException;
 use Teak\Compiler\FrontMatter\Yaml;
 use Teak\Compiler\Heading;
 use Teak\Compiler\HookReference;
@@ -49,9 +50,17 @@ class HookReferenceGenerator extends ReferenceGenerator
      * @param InputInterface  $input
      * @param OutputInterface $output
      * @param array           $files
+     *
+     * @return string|array
      */
     public function handleClassCollection($input, $output, $files)
     {
+        $output->writeln('<info>Generate '
+         . ucfirst($input->getOption(self::OPT_HOOK_TYPE))
+         . ' Hook Reference for ' . $input->getArgument(self::ARG_FILES)
+         . '</info>'
+        );
+
         $projectFactory = \phpDocumentor\Reflection\Php\ProjectFactory::createInstance();
         $fs             = new Filesystem();
         $returns        = [];
@@ -111,8 +120,14 @@ class HookReferenceGenerator extends ReferenceGenerator
         // Add prefix
         $filename = $input->getOption(self::OPT_FILE_PREFIX) . $filename . '.md';
 
-        $fs->dumpFile(getcwd() . '/' . $outputFolder . $filename, $contents);
+        $filepath = $outputFolder . $filename;
 
-        //return '';
+        try {
+            $fs->dumpFile(getcwd() . '/' . $filepath, $contents);
+        } catch (IOException $e) {
+            return $e->getMessage();
+        }
+
+        return 'Created ' . $filepath;
     }
 }

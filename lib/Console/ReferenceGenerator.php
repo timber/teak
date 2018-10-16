@@ -29,6 +29,8 @@ abstract class ReferenceGenerator extends Command
      * @param InputInterface  $input
      * @param OutputInterface $output
      * @param array           $classCollection
+     *
+     * @return string|array Output message.
      */
     abstract protected function handleClassCollection($input, $output, $classCollection);
 
@@ -111,13 +113,13 @@ abstract class ReferenceGenerator extends Command
 
         sort($files);
 
-        $body = $this->handleClassCollection($input, $output, $files);
+        $message = $this->handleClassCollection($input, $output, $files);
 
-        if (is_array($body)) {
-            $body = implode(PHP_EOL, $body);
+        if (is_array($message)) {
+            $message = implode(PHP_EOL, $message);
         }
 
-        $output->writeln(PHP_EOL . $body);
+        $output->writeln($message);
     }
 
     public function getFilesInFolder($dir, $ignore, $files = [])
