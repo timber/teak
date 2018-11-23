@@ -82,7 +82,7 @@ class HookReference implements CompilerInterface
                             'docBlock' => $this->lastDocBlock,
                             'variations' => [],
                         ];
-                    } else {
+                    } elseif (!empty($this->hooks[$hookType])) {
                         /**
                          * Check for a repeating hook with more parameters.
                          *
