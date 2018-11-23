@@ -68,7 +68,7 @@ class ClassReference implements CompilerInterface
 
         // Code example
         $contents .= (new Example($this->class->getDocBlock()))->compile();
-
+        
         // Class properties and methods table
         $contents .= (new ApiTable($this->reflection))->compile();
 
@@ -78,9 +78,6 @@ class ClassReference implements CompilerInterface
             $methods = new Method($method);
             $contents .= $methods->compile();
         }
-
-        $contents .= (new ParentList($this->class))->compile();
-        $contents .= (new InterfaceList($this->class))->compile();
 
         return $contents;
     }

@@ -51,8 +51,14 @@ class ApiTable extends Reflection implements CompilerInterface
         $properties = $this->class->getProperties();
         $methods = $this->class->getMethods();
 
-        if (!empty($properties) || !empty($methods)) {
+        if (!empty($properties) || !empty($methods) || $this->class->getParent() || $this->class->getInterfaces()) {
             $contents .= (new Heading('Overview', 2))->compile();
+        }
+
+        if ($this->class->getParent() || $this->class->getInterfaces()) {
+            $contents .= (new ParentList($this->class))->compile();
+            $contents .= (new InterfaceList($this->class))->compile();
+            $contents .= self::NEWLINE;
         }
 
         if (!empty($properties)) {

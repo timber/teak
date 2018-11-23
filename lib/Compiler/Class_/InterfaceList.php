@@ -42,9 +42,11 @@ class InterfaceList implements CompilerInterface
                 return ltrim($interface, '\\');
             }, $interfaces);
 
-            $contents .= PHP_EOL . '*This class implements ' . implode(', ', $interfaces) . '*' . PHP_EOL;
+            $contents .= '*This class implements ' . implode(', ', array_map(function($interface) {
+                return '`' . $interface . '`';
+            }, $interfaces)) . '*';
         }
 
-        return $contents;
+        return $contents . self::BREAK;
     }
 }

@@ -11,6 +11,7 @@ interface CompilerInterface
 {
     const NEWLINE = PHP_EOL;
     const PARAGRAPH = PHP_EOL . PHP_EOL;
+    const BREAK = '  ' . PHP_EOL;
     const DIVIDER = '---' . PHP_EOL . PHP_EOL;
 
     /**

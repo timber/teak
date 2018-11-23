@@ -38,8 +38,8 @@ class ParentList implements CompilerInterface
             return $contents;
         }
 
-        $contents .= '*This class extends ' . ltrim($this->class->getParent(), '\\') . '*';
+        $contents .= '*This class extends `' . ltrim($this->class->getParent(), '\\') . '`*';
 
-        return $contents . self::NEWLINE;
+        return $contents . self::BREAK;
     }
 }
