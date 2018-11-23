@@ -49,7 +49,7 @@ class ClassReference implements CompilerInterface
 
         $contents .= $description;
 
-        if ( ! empty( $description ) ) {
+        if (!empty($description)) {
             /**
              * Mark text content until here as the description of the page.
              *
@@ -71,8 +71,6 @@ class ClassReference implements CompilerInterface
 
         // Class properties and methods table
         $contents .= (new ApiTable($this->reflection))->compile();
-
-        $contents .= self::DIVIDER;
 
         $contents .= (new Heading('Class Methods', 2))->compile();
 

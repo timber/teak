@@ -31,8 +31,7 @@ class ApiTable extends Reflection implements CompilerInterface
      */
     public function __construct($class)
     {
-        $this->class = new ClassReflection($class);
-
+        $this->class      = new ClassReflection($class);
         $this->reflection = $class;
     }
 

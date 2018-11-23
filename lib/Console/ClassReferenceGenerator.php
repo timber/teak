@@ -5,6 +5,7 @@ namespace Teak\Console;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Teak\Compiler\ClassReference;
 use Teak\Compiler\FrontMatter\Yaml;
+use Teak\Compiler\Heading;
 use Teak\Reflection\ClassReflection;
 
 use Symfony\Component\Filesystem\Filesystem;
@@ -54,9 +55,12 @@ class ClassReferenceGenerator extends ReferenceGenerator
                     continue;
                 }
 
-                $contents = '';
+                $contents    = '';
+                $frontMatter = $input->getOption(self::OPT_FRONT_MATTER_STYLE);
 
-                if ('YAML' === $input->getOption(self::OPT_FRONT_MATTER_STYLE)) {
+                if (empty($frontMatter)) {
+                    $contents .= (new Heading($class->getName(), 1))->compile();
+                } elseif ('YAML' === $frontMatter) {
                     $contents = (new Yaml(
                         $class->getFqsen(),
                         $class->getName(),

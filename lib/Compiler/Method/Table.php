@@ -58,7 +58,7 @@ class Table implements CompilerInterface
             $contents .= $this->compileMethod($method);
         }
 
-        return $contents . self::NEWLINE;
+        return $contents;
     }
 
     /**
@@ -78,15 +78,15 @@ class Table implements CompilerInterface
             . $this->sanitizeTypeList($method->getReturnType()) . ' | ';
 
         if (!empty($method->getSummary())) {
-        	$return .= $this->sanitizeTextForTable($method->getSummary()) . '<br><br>';
+        	$return .= $this->sanitizeTextForTable($method->getSummary());
         }
 
         if (!empty($method->getReturnDescription())) {
-	        $return .= '*Returns:* '
-	                   . $this->sanitizeTextForTable($method->getReturnDescription())
-	                   . ' |';
+	        $return .= '<br><br>*Returns:* '
+               . $this->sanitizeTextForTable($method->getReturnDescription());
         }
 
+        $return .= ' |';
 
         return $return . self::NEWLINE;
     }
