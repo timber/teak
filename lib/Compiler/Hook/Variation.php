@@ -33,10 +33,10 @@ class Variation implements CompilerInterface
             return $contents;
         }
 
-        $contents .= '- ' . $this->hook['name'] . self::NEWLINE;
+        $contents .= '- `' . $this->hook['name'] . '`' . self::NEWLINE;
 
         foreach ($this->hook['variations'] as $variation) {
-            $contents .= '- ' . $variation . self::NEWLINE;
+            $contents .= '- `' . $variation . '`' . self::NEWLINE;
         }
 
         return $contents . self::NEWLINE;

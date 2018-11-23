@@ -66,8 +66,6 @@ class Hook implements CompilerInterface
         // Code example
         $contents .= (new Example($this->docBlock))->compile();
 
-        $contents .= self::DIVIDER;
-
         return $contents;
     }
 }
