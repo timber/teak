@@ -57,14 +57,20 @@ class Method implements CompilerInterface
         // Summary
         $contents .= (new Summary($this->method->getDocBlock()))->compile();
 
+        // Deprecated tag
+        $contents .= (new Deprecated($this->method->getDocBlock()))->compile();
+
         // Description
         $contents .= (new Description($this->method->getDocBlock()))->compile();
 
-        // Deprecated tag
-        $contents .= (new Deprecated($this->method->getDocBlock()))->compile();
         // See tag
         $contents .= (new See($this->method->getDocBlock()))->compile();
 
+        // Link tag
+        $contents .= (new Link($this->method->getDocBlock()))->compile();
+
+        // Since tag
+        $contents .= (new Since($this->method->getDocBlock()))->compile();
 
         // Function definition
         $contents .= (new Definition($this->method))->compile();
