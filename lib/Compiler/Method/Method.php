@@ -3,12 +3,16 @@
 namespace Teak\Compiler\Method;
 
 use phpDocumentor\Reflection\Php\Function_;
+use Teak\Compiler\ClassList;
 use Teak\Compiler\CompilerInterface;
 use Teak\Compiler\Tag\Deprecated;
 use Teak\Compiler\Tag\Description;
+use Teak\Compiler\Tag\Link;
 use Teak\Compiler\Tag\Return_;
 use Teak\Compiler\Param\Table;
 use Teak\Compiler\Tag\Example;
+use Teak\Compiler\Tag\See;
+use Teak\Compiler\Tag\Since;
 use Teak\Compiler\Tag\Summary;
 use Teak\Compiler\Heading;
 use Teak\Reflection\MethodReflection;
@@ -58,6 +62,9 @@ class Method implements CompilerInterface
 
         // Deprecated tag
         $contents .= (new Deprecated($this->method->getDocBlock()))->compile();
+        // See tag
+        $contents .= (new See($this->method->getDocBlock()))->compile();
+
 
         // Function definition
         $contents .= (new Definition($this->method))->compile();

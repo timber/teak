@@ -3,6 +3,7 @@
 namespace Teak\Console;
 
 use Symfony\Component\Filesystem\Exception\IOException;
+use Teak\Compiler\ClassLinkList;
 use Teak\Compiler\ClassReference;
 use Teak\Compiler\FrontMatter\Yaml;
 use Teak\Compiler\Heading;
@@ -40,12 +41,58 @@ class ClassReferenceGenerator extends ReferenceGenerator
         $projectFactory = \phpDocumentor\Reflection\Php\ProjectFactory::createInstance();
         $project = $projectFactory->create('Teak', $files);
 
+        $fs      = new Filesystem();
+        $returns = [];
+
+        // Get options.
+        $filePrefix = $input->getOption(self::OPT_FILE_PREFIX);
+
         // Make sure there’s a trailing slash
         $outputFolder = rtrim($input->getOption(self::OPT_OUTPUT), '/') . '/';
 
-        $fs = new Filesystem();
+        // Generate list of classes for linking in between classes.
+        ClassLinkList::getInstance()->generate($project, $filePrefix);
 
-        $returns = [];
+        foreach ($this->generateClassList($project) as $class) {
+            $contents    = '';
+            $frontMatter = $input->getOption(self::OPT_FRONT_MATTER_STYLE);
+
+            if (empty($frontMatter)) {
+                $contents .= (new Heading($class->getName(), 1))->compile();
+            } elseif ('YAML' === $frontMatter) {
+                $contents = (new Yaml(
+                    $class->getFqsen(),
+                    $class->getName(),
+                    $input->getOption(self::OPT_FRONT_MATTER_PARENT)
+                ))->compile();
+            }
+
+            $classReference = new ClassReference($class);
+            $contents .= $classReference->compile();
+
+            $filename = $filePrefix . mb_strtolower(str_replace("\\", '-', ltrim($class->getFqsen(), "\\"))) . '.md';
+            $filepath = $outputFolder . $filename;
+
+            try {
+                $fs->dumpFile(getcwd() . '/' . $filepath, $contents);
+            } catch (IOException $e) {
+                $returns[] = $e->getMessage();
+            }
+
+            $returns[] = 'Created ' . $filepath;
+        }
+
+        return $returns;
+    }
+
+    /**
+     * @param \phpDocumentor\Reflection\Php\Project $project
+     *
+     * @return array
+     */
+    public function generateClassList($project)
+    {
+        $classes = [];
 
         foreach ($project->getFiles() as $file) {
             foreach ($file->getClasses() as $class) {
@@ -55,35 +102,10 @@ class ClassReferenceGenerator extends ReferenceGenerator
                     continue;
                 }
 
-                $contents    = '';
-                $frontMatter = $input->getOption(self::OPT_FRONT_MATTER_STYLE);
-
-                if (empty($frontMatter)) {
-                    $contents .= (new Heading($class->getName(), 1))->compile();
-                } elseif ('YAML' === $frontMatter) {
-                    $contents = (new Yaml(
-                        $class->getFqsen(),
-                        $class->getName(),
-                        $input->getOption(self::OPT_FRONT_MATTER_PARENT)
-                    ))->compile();
-                }
-
-                $classReference = new ClassReference($class);
-                $contents .= $classReference->compile();
-
-                $filename = $input->getOption(self::OPT_FILE_PREFIX) . mb_strtolower($class->getName()) . '.md';
-                $filepath = $outputFolder . $filename;
-
-                try {
-                    $fs->dumpFile(getcwd() . '/' . $filepath, $contents);
-                } catch (IOException $e) {
-                    $returns[] = $e->getMessage();
-                }
-
-                $returns[] = 'Created ' . $filepath;
+                $classes[] = $class;
             }
         }
 
-        return $returns;
+        return $classes;
     }
 }

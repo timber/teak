@@ -3,8 +3,6 @@
 namespace Teak\Compiler;
 
 use Teak\Compiler\Class_\ApiTable;
-use Teak\Compiler\Class_\InterfaceList;
-use Teak\Compiler\Class_\ParentList;
 use Teak\Compiler\Method\Method;
 use Teak\Compiler\Tag\Description;
 use Teak\Compiler\Tag\Example;
@@ -68,7 +66,7 @@ class ClassReference implements CompilerInterface
 
         // Code example
         $contents .= (new Example($this->class->getDocBlock()))->compile();
-        
+
         // Class properties and methods table
         $contents .= (new ApiTable($this->reflection))->compile();
 

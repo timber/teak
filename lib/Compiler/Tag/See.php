@@ -2,6 +2,7 @@
 
 namespace Teak\Compiler\Tag;
 
+use Teak\Compiler\ClassLinkList;
 use Teak\Compiler\CompilerInterface;
 use Teak\Reflection\DocBlock;
 
@@ -38,32 +39,37 @@ class See implements CompilerInterface
             return $contents;
         }
 
+        $linkList      = ClassLinkList::getInstance()->get();
+        $referencePath = ClassLinkList::getInstance()->getReferencePath();
+        $title         = ltrim($this->tag, "\\");
+        $method        = false;
+        $link          = false;
+
+        if (false !== strpos($title, '::')) {
+            list($class, $method) = explode('::', $title);
+        } else {
+            $class = $title;
+        }
+
+        if ($linkList && in_array($class, array_keys($linkList), true)) {
+            if ($referencePath) {
+                $link = rtrim($referencePath, '/') . '/' . $linkList[$class]['filename'] . '/';
+            } else {
+                $link = '../' . $linkList[$class]['filename'] . '/';
+            }
+
+            if ($method) {
+                $link .= '#' . rtrim($method, '()');
+            }
+        }
+
         $contents = '**see** ';
 
-        $title = ltrim($this->tag, "\\");
-        $link  = $title;
-
-        $link = str_replace(
-            array("\\", '()', '_', '::'),
-            array('-', '', '-', '.md#'),
-            mb_strtolower($link)
-        );
-
-        // Special case for timber.md
-        // TODO: Move this out of Compiler somehow
-        $link = str_replace(
-            ['timber-timber'],
-            ['timber'],
-            $link
-        );
-
-        /**
-         * Use a relative reference for Hugo
-         *
-         * @todo Move this out of Compiler somehow
-         * @link https://gohugo.io/content-management/cross-references/
-         */
-        $contents .= '[' . $title . '](' . $link . ')';
+        if ($link) {
+            $contents .= '[' . $title . '](' . $link . ')';
+        } else {
+            $contents .= $title;
+        }
 
         return $contents . self::PARAGRAPH;
     }

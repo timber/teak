@@ -3,6 +3,7 @@
 namespace Teak\Console;
 
 use Symfony\Component\Filesystem\Exception\IOException;
+use Teak\Compiler\ClassLinkList;
 use Teak\Compiler\FrontMatter\Yaml;
 use Teak\Compiler\Heading;
 use Teak\Compiler\HookReference;
@@ -20,6 +21,7 @@ class HookReferenceGenerator extends ReferenceGenerator
     // Options
     const OPT_HOOK_TYPE = 'hook_type';
     const OPT_HOOK_PREFIX = 'hook_prefix';
+    const OPT_CLASS_REFERENCE_PATH = 'class_reference_path';
 
     protected function configure()
     {
@@ -43,6 +45,13 @@ class HookReferenceGenerator extends ReferenceGenerator
                 InputOption::VALUE_OPTIONAL,
                 'Hook prefix (to select only hooks with a certain prefix)',
                 null
+            )
+            ->addOption(
+                self::OPT_CLASS_REFERENCE_PATH,
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Path to the class reference relative to the document root.',
+                null
             );
     }
 
@@ -62,11 +71,13 @@ class HookReferenceGenerator extends ReferenceGenerator
         );
 
         $projectFactory = \phpDocumentor\Reflection\Php\ProjectFactory::createInstance();
+        $project = $projectFactory->create('Teak', $files);
+
         $fs             = new Filesystem();
         $returns        = [];
         $contents       = '';
 
-        $types = array(
+        $types = [
             'filter' => [
                 'title' => 'Filter Hooks',
                 'filename' => 'filters',
@@ -75,16 +86,20 @@ class HookReferenceGenerator extends ReferenceGenerator
                 'title' => 'Action Hooks',
                 'filename' => 'actions',
             ],
-        );
-
-        $project = $projectFactory->create('Teak', $files);
+        ];
 
         // Get options
-        $type         = $input->getOption(self::OPT_HOOK_TYPE);
-        $outputFolder = $input->getOption(self::OPT_OUTPUT);
+        $type          = $input->getOption(self::OPT_HOOK_TYPE);
+        $outputFolder  = $input->getOption(self::OPT_OUTPUT);
+        $filePrefix    = $input->getOption(self::OPT_FILE_PREFIX);
+        $referencePath = $input->getOption(self::OPT_CLASS_REFERENCE_PATH);
 
         // Make sure there’s a trailing slash
         $outputFolder = rtrim($outputFolder, '/') . '/';
+
+        // Generate list of classes for linking in between classes.
+        ClassLinkList::getInstance()->generate($project, $filePrefix);
+        ClassLinkList::getInstance()->setReferencePath($referencePath);
 
         // Use 'hooks' as default if default is not changed
         $parent = 'reference' === $input->getOption(self::OPT_FRONT_MATTER_PARENT)
@@ -118,7 +133,7 @@ class HookReferenceGenerator extends ReferenceGenerator
             : $types[$type]['filename'];
 
         // Add prefix
-        $filename = $input->getOption(self::OPT_FILE_PREFIX) . $filename . '.md';
+        $filename = $filePrefix . $filename . '.md';
 
         $filepath = $outputFolder . $filename;
 
