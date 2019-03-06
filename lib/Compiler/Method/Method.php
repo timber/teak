@@ -49,7 +49,7 @@ class Method implements CompilerInterface
         $name = $this->method->getName();
 
         if ($this->method->isDeprecated()) {
-            $name = '<del>' . $this->method->getName() . '</del>';
+            $name = '~~' . $this->method->getName() . '~~';
         }
 
         // Add parenthesis to mark it as a function

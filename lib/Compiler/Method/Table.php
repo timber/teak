@@ -71,7 +71,7 @@ class Table implements CompilerInterface
         $name = $method->getName();
 
         if ($method->isDeprecated()) {
-            $name = '<del>' . $name . '</del>';
+            $name = '~~' . $name . '~~';
         }
 
         // Add parenthesis to mark it as a function

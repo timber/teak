@@ -60,7 +60,7 @@ class ClassReference implements CompilerInterface
          * TODO: test this out
          */
         if ($this->class->isDeprecated()) {
-            $contents .= '### <del>' . $this->class->getTitle() . '</del>' . self::PARAGRAPH .
+            $contents .= '### ~~' . $this->class->getTitle() . '~~' . self::PARAGRAPH .
                          '> **DEPRECATED** ' . $this->class->getTag('deprecated') . self::PARAGRAPH;
         }
 
