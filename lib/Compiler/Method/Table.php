@@ -74,6 +74,9 @@ class Table implements CompilerInterface
             $name = '<del>' . $name . '</del>';
         }
 
+        // Add parenthesis to mark it as a function
+        $name .= '()';
+
         $return = '| [' . $name . '](#' . $this->sanitizeAnchor($method->getName()) . ')' . ' | '
             . $this->sanitizeTypeList($method->getReturnType()) . ' | ';
 

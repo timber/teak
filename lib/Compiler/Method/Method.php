@@ -52,6 +52,10 @@ class Method implements CompilerInterface
             $name = '<del>' . $this->method->getName() . '</del>';
         }
 
+        // Add parenthesis to mark it as a function
+        $name .= '()';
+
+        // Heading
         $contents .= (new Heading($name, 3))->compile();
 
         // Summary
