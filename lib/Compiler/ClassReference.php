@@ -73,8 +73,8 @@ class ClassReference implements CompilerInterface
         $contents .= (new Heading('Class Methods', 2))->compile();
 
         foreach ($this->class->getMethods() as $method) {
-            $methods = new Method($method);
-            $contents .= $methods->compile();
+            $method = new Method($method);
+            $contents .= $method->compile();
         }
 
         return $contents;

@@ -33,8 +33,6 @@ class FunctionReference implements CompilerInterface
         $contents .= (new Summary($this->function->getDocBlock()))->compile();
         $contents .= (new Description($this->function->getDocBlock()))->compile();
 
-
-
         return $contents;
     }
 }
