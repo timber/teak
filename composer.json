@@ -1,6 +1,5 @@
 {
   "name": "timber/teak",
-  "version": "1.0.0",
   "type": "library",
   "description": "Generate a Markdown reference documentation for PHP projects (optimized for WordPress)",
   "license": "MIT",
@@ -13,11 +12,11 @@
   ],
   "require": {
     "php": ">=7.0.0",
-    "symfony/filesystem": "^4.0",
-    "symfony/console": "^4.0",
-    "phpunit/phpunit": "^6",
+    "phpdocumentor/reflection": "~2.0",
     "phpdocumentor/reflection-docblock": "^3.3",
-    "phpdocumentor/reflection": " ~2.0"
+    "phpunit/phpunit": "^6",
+    "symfony/console": "^4.0",
+    "symfony/filesystem": "^4.0"
   },
   "autoload": {
     "psr-4": {
@@ -25,6 +24,9 @@
       "Tests\\": "tests"
     }
   },
-  "bin": ["teak"],
-  "minimum-stability": "alpha"
+  "bin": [
+    "teak"
+  ],
+  "minimum-stability": "alpha",
+  "prefer-stable": true
 }
