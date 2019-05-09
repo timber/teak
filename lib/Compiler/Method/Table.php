@@ -58,7 +58,7 @@ class Table implements CompilerInterface
             $contents .= $this->compileMethod($method);
         }
 
-        return $contents;
+        return $contents . self::NEWLINE;
     }
 
     /**
