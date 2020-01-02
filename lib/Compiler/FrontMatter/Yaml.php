@@ -16,13 +16,11 @@ class Yaml implements CompilerInterface
 
     protected $title;
     protected $linkTitle;
-    protected $parent;
 
-    public function __construct($title, $linkTitle = null, $parent = '')
+    public function __construct($title, $linkTitle = null)
     {
         $this->title = $this->sanitizeTitle($title);
         $this->linkTitle = !empty($linkTitle) ? $this->sanitizeTitle($linkTitle) : null;
-        $this->parent = $parent;
     }
 
     /**
@@ -49,15 +47,6 @@ class Yaml implements CompilerInterface
         }
 
         $contents .= 'is_reference: true' . self::NEWLINE;
-
-        if (!empty($this->parent)) {
-            $identifier = $this->slugify($this->parent) . '-' . $this->slugify($this->title);
-
-            $contents .= 'menu:' . self::NEWLINE
-                . '  main:' . self::NEWLINE
-                . '    parent: "' . $this->parent . '"' . self::NEWLINE
-                . '    identifier: "' . $identifier . '"' . self::NEWLINE;
-        }
 
         $contents .= '---';
         $contents .= self::PARAGRAPH;

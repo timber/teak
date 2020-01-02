@@ -114,7 +114,6 @@ vendor/bin/teak generate:hook-reference -h
 Teak can generate Front Matter Blocks that you will use if you use the generated Markdown files to generate a website using a static site generator.
 
 - `--front_matter_style` –  Front Matter type. Currently, only "YAML" is supported (if not provided, will output a Heading 1 instead of a Front Matter block).
-- `--front_matter_parent` – The parent string to use for the Front Matter block. Default: `reference`.
 
 ## DocBlocks
 

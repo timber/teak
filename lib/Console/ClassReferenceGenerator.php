@@ -62,8 +62,7 @@ class ClassReferenceGenerator extends ReferenceGenerator
             } elseif ('YAML' === $frontMatter) {
                 $contents = (new Yaml(
                     $class->getFqsen(),
-                    $class->getName(),
-                    $input->getOption(self::OPT_FRONT_MATTER_PARENT)
+                    $class->getName()
                 ))->compile();
             }
 

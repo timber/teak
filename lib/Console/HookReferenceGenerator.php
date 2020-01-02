@@ -101,11 +101,6 @@ class HookReferenceGenerator extends ReferenceGenerator
         ClassLinkList::getInstance()->generate($project, $filePrefix);
         ClassLinkList::getInstance()->setReferencePath($referencePath);
 
-        // Use 'hooks' as default if default is not changed
-        $parent = 'reference' === $input->getOption(self::OPT_FRONT_MATTER_PARENT)
-            ? 'hooks'
-            : $input->getOption(self::OPT_FRONT_MATTER_PARENT);
-
         $title = !empty($input->getOption(self::OPT_FILE_TITLE))
             ? $input->getOption(self::OPT_FILE_TITLE)
             : $types[$type]['title'];
@@ -115,7 +110,7 @@ class HookReferenceGenerator extends ReferenceGenerator
         if (empty($frontMatter)) {
             $contents = (new Heading($title, 1))->compile();
         } elseif ('YAML' === $frontMatter) {
-            $contents = (new Yaml($title, null, $parent))->compile();
+            $contents = (new Yaml($title, null))->compile();
         }
 
         foreach ($project->getFiles() as $file) {
