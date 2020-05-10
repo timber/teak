@@ -67,8 +67,6 @@ trait SanitizeTrait
 
     public function sanitizeAnchor($link)
     {
-        $link = str_replace('__', '', $link);
-
         return $link;
     }
 
