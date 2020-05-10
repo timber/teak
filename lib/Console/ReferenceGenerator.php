@@ -93,6 +93,25 @@ abstract class ReferenceGenerator extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $files = $this->getFiles($input);
+        $message = $this->handleClassCollection($input, $output, $files);
+
+        if (is_array($message)) {
+            $message = implode(PHP_EOL, $message);
+        }
+
+        $output->writeln($message);
+    }
+
+    /**
+     * Gets files as an array.
+     *
+     * @param InputInterface $input
+     *
+     * @return array|string|string[]|null
+     */
+    public function getFiles(InputInterface $input)
+    {
         $files  = $input->getArgument(self::ARG_FILES);
         $ignore = explode(',', $input->getOption(self::OPT_IGNORE));
 
@@ -105,16 +124,10 @@ abstract class ReferenceGenerator extends Command
 
         sort($files);
 
-        $message = $this->handleClassCollection($input, $output, $files);
-
-        if (is_array($message)) {
-            $message = implode(PHP_EOL, $message);
-        }
-
-        $output->writeln($message);
+        return $files;
     }
 
-    public function getFilesInFolder($dir, $ignore, $files = [])
+    protected function getFilesInFolder($dir, $ignore, $files = [])
     {
         /**
          * @var \SplFileInfo $f
