@@ -49,7 +49,8 @@ class Table implements CompilerInterface
             return ($a->getName() < $b->getName()) ? -1 : 1;
         });
 
-        $contents = '';
+        $contents = '<div class="table-methods">';
+        $contents .= self::PARAGRAPH;
 
         $contents .= '| Name | Return Type | Summary/Returns |' . self::NEWLINE;
         $contents .= '| --- | --- | --- |' . self::NEWLINE;
@@ -58,7 +59,11 @@ class Table implements CompilerInterface
             $contents .= $this->compileMethod($method);
         }
 
-        return $contents . self::NEWLINE;
+        $contents .= self::PARAGRAPH;
+        $contents .= '</div>';
+        $contents .= self::NEWLINE;
+
+        return $contents;
     }
 
     /**
@@ -77,19 +82,27 @@ class Table implements CompilerInterface
         // Add parenthesis to mark it as a function
         $name .= '()';
 
-        $return = '| [' . $name . '](#' . $this->sanitizeAnchor($method->getName()) . ')' . ' | '
-            . $this->sanitizeTypeList($method->getReturnType()) . ' | ';
+        $return = sprintf(
+            '| <span class="method-name">[%1$s](#%2$s)</span> | '
+            . '<span class="method-type">%3$s</span> | ',
+            $name,
+            $this->sanitizeAnchor($method->getName()),
+            $this->sanitizeTypeList($method->getReturnType())
+        );
+
+        $return .= '<span class="method-description">';
 
         if (!empty($method->getSummary())) {
         	$return .= $this->sanitizeTextForTable($method->getSummary());
         }
 
         if (!empty($method->getReturnDescription())) {
-	        $return .= '<br><br>*Returns:* '
-               . $this->sanitizeTextForTable($method->getReturnDescription());
+	        $return .= '<br><br><span class="method-return"><span class="method-return-label">Returns:</span> '
+               . $this->sanitizeTextForTable($method->getReturnDescription())
+               . '</span>';
         }
 
-        $return .= ' |';
+        $return .= '</span> |';
 
         return $return . self::NEWLINE;
     }

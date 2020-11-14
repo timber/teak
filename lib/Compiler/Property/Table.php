@@ -43,15 +43,25 @@ class Table implements CompilerInterface
             return $contents;
         }
 
+        $contents .= '<div class="table-properties">';
+        $contents .= self::PARAGRAPH;
+
         $contents .= '| Name | Type | Description |' . self::NEWLINE;
         $contents .= '| --- | --- | --- |' . self::NEWLINE;
 
         foreach ($this->properties as $param) {
-            $contents .= '| $' . $param->getName() . ' | '
-                . $this->sanitizeTypeList($param->getDocBlockType()) . ' | '
-                . $this->sanitizeTextForTable($param->getDescription()) . ' |' . self::NEWLINE;
+            $contents .= sprintf(
+                '| <span class="property-name">$%1$s</span> | '
+                 . '<span class="property-type">%2$s</span> | '
+                 . '<span class="property-description">%3$s</span> |' . self::NEWLINE,
+                $param->getName(),
+                $this->sanitizeTypeList($param->getDocBlockType()),
+                $this->sanitizeTextForTable($param->getDescription())
+            );
         }
 
+        $contents .= self::PARAGRAPH;
+        $contents .= '</div>';
         $contents .= self::NEWLINE;
 
         return $contents;
