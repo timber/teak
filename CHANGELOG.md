@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.5 - 2022-02-07
+
+- Updated reflection dependencies.
+
 ## 1.0.4 - 2020-11-19
 
 - Fix regression bug with whitespace before headings.
