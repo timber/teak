@@ -4,7 +4,6 @@ use PHPUnit\Framework\TestCase;
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\Filesystem\Filesystem;
 use Teak\Console\ClassReferenceGenerator;
 use Teak\Console\ClassReferenceHandler;
 use Teak\Console\FunctionReferenceGenerator;
@@ -22,7 +21,7 @@ class ClassCompilerTest extends TestCase
      */
     public $application;
 
-    public function setUp()
+    public function setUp() : void
     {
         parent::setUp();
 
@@ -41,7 +40,7 @@ class ClassCompilerTest extends TestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute([
             'command'  => $command->getName(),
-            'files'    => './testclasses/TestSeeTag.php',
+            'files'    => ABSPATH . '/testclasses/TestSeeTag.php',
             '--output' => './../temp',
         ]);
 
