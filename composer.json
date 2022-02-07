@@ -11,10 +11,10 @@
     }
   ],
   "require": {
-    "php": ">=7.0.0",
-    "phpdocumentor/reflection": "~2.0",
-    "phpdocumentor/reflection-docblock": "^3.3",
     "phpunit/phpunit": "^6",
+    "php": ">=7.4.0",
+    "phpdocumentor/reflection": "^5.0",
+    "phpdocumentor/reflection-docblock": "^5.3",
     "symfony/console": "^4.0",
     "symfony/filesystem": "^4.0"
   },

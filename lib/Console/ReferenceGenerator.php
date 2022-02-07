@@ -2,6 +2,7 @@
 
 namespace Teak\Console;
 
+use phpDocumentor\Reflection\File\LocalFile;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -123,6 +124,11 @@ abstract class ReferenceGenerator extends Command
         }
 
         sort($files);
+
+        // For the Reflection, all file paths need to be converted to LocalFile instances.
+        $files = array_map(function($file) {
+            return new LocalFile($file);
+        }, $files);
 
         return $files;
     }

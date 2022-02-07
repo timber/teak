@@ -5,6 +5,7 @@ namespace Teak\Reflection;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\Php\Function_;
 use phpDocumentor\Reflection\Php\Method;
+use phpDocumentor\Reflection\Types\Mixed_;
 
 /**
  * Class MethodReflection
@@ -60,20 +61,21 @@ class MethodReflection extends Reflection
                     'name' => $argument->getName(),
                 ];
 
-                $types = $argument->getTypes();
+                $type = $argument->getType();
 
-                // Merge types with DocBlock parameter tags
-                if (empty($types)) {
+                // If type is default mixed, then check if the parameter provides a better type.
+                if ( $type instanceof Mixed_ ) {
                     foreach ($this->getParameters() as $parameter) {
-                        if ($parameter->getVariableName() === $argument->getName()) {
-                            $types[] = $parameter->getType();
+                        if (
+                            $parameter->getVariableName() === $argument->getName()
+                            && $parameter->getType()
+                        ) {
+                            $type = $parameter->getType();
                         }
                     }
                 }
 
-                if (!empty($types)) {
-                    $definition['types'] = $types;
-                }
+                $definition['types'] = [ $type ];
 
                 /**
                  * Get parameter default.

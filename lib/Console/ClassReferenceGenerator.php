@@ -64,6 +64,4 @@ class ClassReferenceGenerator extends ReferenceGenerator
 
         return $returns;
     }
-
-
 }
