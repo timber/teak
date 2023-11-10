@@ -11,6 +11,7 @@ use Teak\Compiler\FrontMatter\Yaml;
 use Teak\Compiler\Heading;
 use Teak\Compiler\Method\Method;
 use Teak\Compiler\Method\Table;
+use Teak\Reflection\Reflection;
 
 /**
  * Console command used to extract markdown-formatted documentation from classes
@@ -60,14 +61,25 @@ class FunctionReferenceGenerator extends ReferenceGenerator
 
         foreach ($project->getFiles() as $file) {
             $functions = $file->getFunctions();
+            $functions_to_document = [];
 
-            if (empty($functions)) {
+            foreach ($functions as $function) {
+                $classReflection = new Reflection($function);
+
+                if ($classReflection->shouldIgnore()) {
+                    continue;
+                }
+
+                $functions_to_document[] = $function;
+            }
+
+            if (empty($functions_to_document)) {
                 continue;
             }
 
-            $contents .= (new Table($functions))->compile();
+            $contents .= (new Table($functions_to_document))->compile();
 
-            foreach ($file->getFunctions() as $function) {
+            foreach ($functions_to_document as $function) {
                 $classReference = new Method($function);
                 $contents .= $classReference->compile();
 
