@@ -42,15 +42,6 @@ You can install the package with Composer:
 composer require timber/teak --dev
 ```
 
-Currently, the required packages for Teak require a minimum stability of `alpha`. To load stable version for all packages, but still be able to load Teak into your project, you can use the following config in your **composer.json** file:
-
-```json
-{
-  "minimum-stability": "alpha",
-  "prefer-stable": true
-}
-``` 
-
 ## CLI Usage
 
 ### Generate a class reference
