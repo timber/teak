@@ -27,6 +27,8 @@ class Method implements CompilerInterface
      */
     public $method;
 
+    protected $class;
+
     /**
      * ClassMethodListCompiler constructor.
      *
@@ -35,6 +37,11 @@ class Method implements CompilerInterface
     public function __construct($method)
     {
         $this->method = new MethodReflection($method);
+    }
+
+    public function setCurrentClass($class)
+    {
+        $this->class = $class;
     }
 
     /**
@@ -81,6 +88,12 @@ class Method implements CompilerInterface
 
         // Return Tag
         $contents .= (new Return_($this->method))->compile();
+
+        if (!empty($this->class->getParentMethods())
+            && in_array($this->method->reflection->getFqsen()->__toString(), array_keys($this->class->getParentMethods()))
+       ) {
+            // @todo: Add info about inherited method and possibly a link to the parent class.
+       }
 
         if ($this->method->hasParameters()) {
             $paramsTable = new Table($this->method->getParameters());

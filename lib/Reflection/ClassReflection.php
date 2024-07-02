@@ -84,4 +84,14 @@ class ClassReflection extends Reflection
     {
         return $this->reflection->getInterfaces();
     }
+
+    public function getParentMethods() : array
+    {
+        return $this->parentMethods;
+    }
+
+    public function getParentProperties() : array
+    {
+        return $this->parentProperties;
+    }
 }
