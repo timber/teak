@@ -20,19 +20,13 @@ class ApiTable extends Reflection implements CompilerInterface
     public $class;
 
     /**
-     * @var \phpDocumentor\Reflection\Php\Class_
-     */
-    public $reflection;
-
-    /**
      * ClassApiTableCompiler constructor.
      *
-     * @param \phpDocumentor\Reflection\Php\Class_ $class
+     * @param ClassReflection $class
      */
     public function __construct($class)
     {
-        $this->class      = new ClassReflection($class);
-        $this->reflection = $class;
+        $this->class = $class;
     }
 
     /**
