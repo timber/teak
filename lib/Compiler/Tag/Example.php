@@ -23,7 +23,8 @@ class Example implements CompilerInterface
     public function __construct($docBlock)
     {
         $docBlock = new DocBlock($docBlock);
-        $this->tag = trim($docBlock->getTag('example'));
+
+        $this->tag = trim($docBlock->getTag('example') ?? '');
     }
 
     /**
