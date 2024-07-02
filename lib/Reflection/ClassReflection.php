@@ -47,6 +47,11 @@ class ClassReflection extends Reflection
             return ! (new Reflection($item))->shouldIgnore();
         });
 
+        // Sort methods by name.
+        usort($methods, function ($a, $b) {
+            return strcmp($a->getName(), $b->getName());
+        });
+
         return $methods;
     }
 
@@ -60,6 +65,11 @@ class ClassReflection extends Reflection
 
         $properties = array_filter($properties, function ($item) {
             return ! (new Reflection($item))->shouldIgnore();
+        });
+
+        // Sort properties by name.
+        usort($properties, function ($a, $b) {
+            return strcmp($a->getName(), $b->getName());
         });
 
         return $properties;
