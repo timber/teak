@@ -42,7 +42,7 @@ class ClassReferenceHandler
      *
      * @return string
      */
-    public function compile_class(ClassReflection $classReflection)
+    public function compileClass(ClassReflection $classReflection)
     {
         $contents = '';
 

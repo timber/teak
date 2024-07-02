@@ -48,7 +48,7 @@ class ClassReferenceGenerator extends ReferenceGenerator
         $outputFolder = rtrim($input->getOption(self::OPT_OUTPUT), '/') . '/';
 
         foreach ($classReferenceHandler->getClassList() as $classReflection) {
-            $contents = $classReferenceHandler->compile_class($classReflection);
+            $contents = $classReferenceHandler->compileClass($classReflection);
 
             $filename = $filePrefix . mb_strtolower(str_replace("\\", '-', ltrim($classReflection->reflection->getFqsen(), "\\"))) . '.md';
             $filepath = $outputFolder . $filename;
