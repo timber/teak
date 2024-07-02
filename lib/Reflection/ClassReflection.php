@@ -53,6 +53,11 @@ class ClassReflection extends Reflection
     public function getProperties()
     {
         $properties = $this->reflection->getProperties();
+
+        if ($this->reflection->getParent() && !empty($this->parentProperties)) {
+            $properties = array_merge($properties, $this->parentProperties);
+        }
+
         $properties = array_filter($properties, function ($item) {
             return ! (new Reflection($item))->shouldIgnore();
         });
