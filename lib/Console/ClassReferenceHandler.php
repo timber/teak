@@ -4,6 +4,7 @@ namespace Teak\Console;
 
 use phpDocumentor\Reflection\Php\Class_;
 use phpDocumentor\Reflection\Php\ProjectFactory;
+use phpDocumentor\Reflection\Project;
 use Teak\Compiler\ClassLinkList;
 use Teak\Compiler\ClassReference;
 use Teak\Compiler\FrontMatter\Yaml;
@@ -13,7 +14,7 @@ use Teak\Reflection\ClassReflection;
 class ClassReferenceHandler
 {
     protected $options;
-    protected $project;
+    protected Project $project;
 
     public function __construct($files, $options = [])
     {
@@ -28,30 +29,33 @@ class ClassReferenceHandler
         ClassLinkList::getInstance()->generate($this->project, $this->options['filePrefix']);
     }
 
-    public function getClassList()
+    /**
+     * @return ClassReflection[]
+     */
+    public function getClassList(): array
     {
         return $this->generateClassList($this->project);
     }
 
     /**
-     * @param Class_ $class
+     * @param ClassReflection $classReflection
      *
      * @return string
      */
-    public function compile($class)
+    public function compile_class(ClassReflection $classReflection)
     {
         $contents = '';
 
         if (empty($this->options['frontMatterStyle'])) {
-            $contents .= (new Heading($class->getName(), 1))->compile();
+            $contents .= (new Heading($classReflection->getName(), 1))->compile();
         } elseif ('YAML' === $this->options['frontMatterStyle']) {
             $contents = (new Yaml(
-                $class->getFqsen(),
-                $class->getName()
+                $classReflection->reflection->getFqsen(),
+                $classReflection->getName()
             ))->compile();
         }
 
-        $classReference = new ClassReference($class);
+        $classReference = new ClassReference($classReflection);
         $contents .= $classReference->compile();
 
         return $contents;
@@ -60,24 +64,46 @@ class ClassReferenceHandler
     /**
      * @param \phpDocumentor\Reflection\Php\Project $project
      *
-     * @return Class_[]
+     * @return ClassReflection[]
      */
     protected function generateClassList($project)
     {
-        $classes = [];
+        $classReflections = [];
+        $files = $project->getFiles();
 
-        foreach ($project->getFiles() as $file) {
+        $class_map = [];
+
+        foreach ($files as $file) {
+            foreach ($file->getClasses() as $class) {
+                $class_map[$class->getFqsen()->__toString() ] = $class;
+            }
+        }
+
+        foreach ($files as $file) {
             foreach ($file->getClasses() as $class) {
                 $classReflection = new ClassReflection($class);
+
+                if ($classReflection->getParent()) {
+                    $parent = $class_map[ $classReflection->getParent()->__toString() ] ?? null;
+
+                    if ($parent) {
+                        $classReflection->setParentInformation($parent);
+                    }
+                }
 
                 if ($classReflection->shouldIgnore()) {
                     continue;
                 }
 
-                $classes[] = $class;
+                $classReflections[] = $classReflection;
             }
         }
 
-        return $classes;
+        return $classReflections;
+    }
+
+    public function getProject() : Project
+    {
+        return $this->project;
     }
 }

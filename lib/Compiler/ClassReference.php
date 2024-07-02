@@ -28,10 +28,10 @@ class ClassReference implements CompilerInterface
      *
      * @param \phpDocumentor\Reflection\Php\Class_ $class
      */
-    public function __construct($class)
+    public function __construct(ClassReflection $classReflection)
     {
-        $this->reflection = $class;
-        $this->class = new ClassReflection($class);
+        $this->reflection = $classReflection->reflection;
+        $this->class = $classReflection;
     }
 
     /**
