@@ -71,24 +71,21 @@ class ClassReferenceHandler
         $classReflections = [];
         $files = $project->getFiles();
 
-        $class_map = [];
+        $classMap = [];
 
         foreach ($files as $file) {
             foreach ($file->getClasses() as $class) {
-                $class_map[$class->getFqsen()->__toString() ] = $class;
+                $classMap[$class->getFqsen()->__toString() ] = $class;
             }
         }
 
         foreach ($files as $file) {
             foreach ($file->getClasses() as $class) {
                 $classReflection = new ClassReflection($class);
+                $parents = $this->getParentsRecursive($class, $classMap);
 
-                if ($classReflection->getParent()) {
-                    $parent = $class_map[ $classReflection->getParent()->__toString() ] ?? null;
-
-                    if ($parent) {
-                        $classReflection->setParentInformation($parent);
-                    }
+                foreach ($parents as $parent) {
+                    $classReflection->addParentInformation($parent);
                 }
 
                 if ($classReflection->shouldIgnore()) {
@@ -100,6 +97,24 @@ class ClassReferenceHandler
         }
 
         return $classReflections;
+    }
+
+    protected function getParentsRecursive($class, $classMap)
+    {
+        $parents = [];
+
+        if ($class->getParent()) {
+            $parent = $class->getParent();
+            $parentClass = $classMap[$parent->__toString()] ?? null;
+
+            if ($parentClass) {
+                $parents[] = $parentClass;
+
+                $parents = array_merge($parents, $this->getParentsRecursive($parentClass, $classMap));
+            }
+        }
+
+        return $parents;
     }
 
     public function getProject() : Project

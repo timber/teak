@@ -7,8 +7,8 @@ namespace Teak\Reflection;
  */
 class ClassReflection extends Reflection
 {
-    private $parentMethods;
-    private $parentProperties;
+    private array $parentMethods = [];
+    private array $parentProperties = [];
 
     /**
      * ClassReflection constructor.
@@ -20,9 +20,9 @@ class ClassReflection extends Reflection
         parent::__construct($reflection);
     }
 
-    public function setParentInformation($parentClass)
+    public function addParentInformation($parentClass)
     {
-        $this->parentMethods = $parentClass->getMethods();
+        $this->parentMethods = array_merge($this->parentMethods, $parentClass->getMethods());
         $this->parentProperties = $parentClass->getProperties();
     }
 
