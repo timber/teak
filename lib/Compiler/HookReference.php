@@ -68,7 +68,7 @@ class HookReference implements CompilerInterface
                 }
 
                 $this->lastDocBlock = $docBlock;
-            } elseif (T_STRING === $type && $this->isHook($contents)) {
+            } elseif (!empty(trim($contents)) && $this->isHook($contents)) {
                 $hookName = $this->findNextHookName($tokens, $key);
 
                 if ($this->isValidHook($hookName)) {
@@ -208,6 +208,9 @@ class HookReference implements CompilerInterface
             'do_action_ref_array',
             'do_action_deprecated',
         );
+
+        // Remove any leading backslashes.
+        $name = ltrim($name, '\\');
 
         return in_array($name, $functions);
     }
