@@ -7,6 +7,9 @@ namespace Teak\Reflection;
  */
 class ClassReflection extends Reflection
 {
+    private array $parentMethods = [];
+    private array $parentProperties = [];
+
     /**
      * ClassReflection constructor.
      *
@@ -15,6 +18,12 @@ class ClassReflection extends Reflection
     public function __construct($reflection)
     {
         parent::__construct($reflection);
+    }
+
+    public function addParentInformation($parentClass)
+    {
+        $this->parentMethods = array_merge($this->parentMethods, $parentClass->getMethods());
+        $this->parentProperties = $parentClass->getProperties();
     }
 
     public function hasMethods()
@@ -29,8 +38,18 @@ class ClassReflection extends Reflection
     public function getMethods()
     {
         $methods = $this->reflection->getMethods();
+
+        if ($this->reflection->getParent() && !empty($this->parentMethods)) {
+            $methods = array_merge($methods, $this->parentMethods);
+        }
+
         $methods = array_filter($methods, function ($item) {
             return ! (new Reflection($item))->shouldIgnore();
+        });
+
+        // Sort methods by name.
+        usort($methods, function ($a, $b) {
+            return strcmp($a->getName(), $b->getName());
         });
 
         return $methods;
@@ -39,8 +58,18 @@ class ClassReflection extends Reflection
     public function getProperties()
     {
         $properties = $this->reflection->getProperties();
+
+        if ($this->reflection->getParent() && !empty($this->parentProperties)) {
+            $properties = array_merge($properties, $this->parentProperties);
+        }
+
         $properties = array_filter($properties, function ($item) {
             return ! (new Reflection($item))->shouldIgnore();
+        });
+
+        // Sort properties by name.
+        usort($properties, function ($a, $b) {
+            return strcmp($a->getName(), $b->getName());
         });
 
         return $properties;

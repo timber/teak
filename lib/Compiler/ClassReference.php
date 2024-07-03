@@ -28,10 +28,10 @@ class ClassReference implements CompilerInterface
      *
      * @param \phpDocumentor\Reflection\Php\Class_ $class
      */
-    public function __construct($class)
+    public function __construct(ClassReflection $classReflection)
     {
-        $this->reflection = $class;
-        $this->class = new ClassReflection($class);
+        $this->reflection = $classReflection->reflection;
+        $this->class = $classReflection;
     }
 
     /**
@@ -68,7 +68,7 @@ class ClassReference implements CompilerInterface
         $contents .= (new Example($this->class->getDocBlock()))->compile();
 
         // Class properties and methods table
-        $contents .= (new ApiTable($this->reflection))->compile();
+        $contents .= (new ApiTable($this->class))->compile();
 
         $contents .= (new Heading('Class Methods', 2))->compile();
 

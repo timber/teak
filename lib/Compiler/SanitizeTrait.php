@@ -72,7 +72,7 @@ trait SanitizeTrait
 
     public function removeLineBreaks($text)
     {
-        return str_replace(PHP_EOL, ' ', $text);
+        return str_replace(PHP_EOL, ' ', $text ?? '');
     }
 
     public function escapeMarkdownChars($text)

@@ -89,10 +89,10 @@ abstract class ReferenceGenerator extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     * @return int|null|void
+     * @return int
      * @throws \InvalidArgumentException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $files = $this->getFiles($input);
         $message = $this->handleClassCollection($input, $output, $files);
@@ -102,6 +102,8 @@ abstract class ReferenceGenerator extends Command
         }
 
         $output->writeln($message);
+
+        return 0;
     }
 
     /**
@@ -114,7 +116,7 @@ abstract class ReferenceGenerator extends Command
     public function getFiles(InputInterface $input)
     {
         $files  = $input->getArgument(self::ARG_FILES);
-        $ignore = explode(',', $input->getOption(self::OPT_IGNORE));
+        $ignore = explode(',', $input->getOption(self::OPT_IGNORE) ?: '');
 
         if (is_dir($files)) {
             $files = $this->getFilesInFolder($files, $ignore);

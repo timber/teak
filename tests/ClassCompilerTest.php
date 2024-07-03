@@ -49,7 +49,7 @@ class ClassCompilerTest extends TestCase
         $classReferenceHandler = new ClassReferenceHandler($files);
 
         foreach ($classReferenceHandler->getClassList() as $class) {
-            $contents = $classReferenceHandler->compile($class);
+            $contents = $classReferenceHandler->compileClass($class);
         }
 
         /*$fs = new FileSystem();
