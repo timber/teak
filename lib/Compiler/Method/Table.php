@@ -49,7 +49,7 @@ class Table implements CompilerInterface
             return ($a->getName() < $b->getName()) ? -1 : 1;
         });
 
-        $contents = '<div class="table-methods">';
+        $contents = '<div class="table-methods table-responsive">';
         $contents .= self::PARAGRAPH;
 
         $contents .= '| Name | Return Type | Summary/Returns |' . self::NEWLINE;
@@ -84,7 +84,7 @@ class Table implements CompilerInterface
 
         $return = sprintf(
             '| <span class="method-name">[%1$s](#%2$s)</span> | '
-            . '<span class="method-type">%3$s</span> | ',
+                . '<span class="method-type">%3$s</span> | ',
             $name,
             $this->sanitizeAnchor($method->getName()),
             $this->sanitizeTypeList($method->getReturnType())
@@ -93,13 +93,13 @@ class Table implements CompilerInterface
         $return .= '<span class="method-description">';
 
         if (!empty($method->getSummary())) {
-        	$return .= $this->sanitizeTextForTable($method->getSummary());
+            $return .= $this->sanitizeTextForTable($method->getSummary());
         }
 
         if (!empty($method->getReturnDescription())) {
-	        $return .= '<br><br><span class="method-return"><span class="method-return-label">Returns:</span> '
-               . $this->sanitizeTextForTable($method->getReturnDescription())
-               . '</span>';
+            $return .= '<br><br><span class="method-return"><span class="method-return-label">Returns:</span> '
+                . $this->sanitizeTextForTable($method->getReturnDescription())
+                . '</span>';
         }
 
         $return .= '</span> |';

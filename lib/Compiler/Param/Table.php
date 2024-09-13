@@ -41,7 +41,7 @@ class Table implements CompilerInterface
         if (!is_array($this->params) || empty($this->params)) {
             return $contents;
         }
-
+        $contents = '<div class="table-responsive">';
         $contents .= '| Name | Type | Description |' . self::NEWLINE;
         $contents .= '| --- | --- | --- |' . self::NEWLINE;
 
@@ -70,6 +70,7 @@ class Table implements CompilerInterface
         }
 
         $contents .= self::NEWLINE;
+        $contents .= '</div>';
 
         return $contents;
     }

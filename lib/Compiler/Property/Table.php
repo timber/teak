@@ -43,7 +43,7 @@ class Table implements CompilerInterface
             return $contents;
         }
 
-        $contents .= '<div class="table-properties">';
+        $contents .= '<div class="table-properties table-responsive">';
         $contents .= self::PARAGRAPH;
 
         $contents .= '| Name | Type | Description |' . self::NEWLINE;
@@ -52,8 +52,8 @@ class Table implements CompilerInterface
         foreach ($this->properties as $param) {
             $contents .= sprintf(
                 '| <span class="property-name">$%1$s</span> | '
-                 . '<span class="property-type">%2$s</span> | '
-                 . '<span class="property-description">%3$s</span> |' . self::NEWLINE,
+                    . '<span class="property-type">%2$s</span> | '
+                    . '<span class="property-description">%3$s</span> |' . self::NEWLINE,
                 $param->getName(),
                 $this->sanitizeTypeList($param->getDocBlockType()),
                 $this->sanitizeTextForTable($param->getDescription())
