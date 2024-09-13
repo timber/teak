@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/timber/teak/compare/v1.1.0...v1.2.0) (2024-09-13)
+
+
+### Features
+
+* Add .table-responsive CSS class for reference tables ([#11](https://github.com/timber/teak/issues/11)) ([8e04e6e](https://github.com/timber/teak/commit/8e04e6e7da966c22a7a2706b649309f6a961bce2))
+
 ## [1.1.0](https://github.com/timber/teak/compare/1.0.6...v1.1.0) (2024-07-03)
 
 
