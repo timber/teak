@@ -43,7 +43,7 @@ class Table implements CompilerInterface
         }
 
         $contents = '<div class="table-responsive">';
-        $contents .= self::NEWLINE;
+        $contents .= self::PARAGRAPH;
         $contents .= '| Name | Type | Description |' . self::NEWLINE;
         $contents .= '| --- | --- | --- |' . self::NEWLINE;
 
@@ -71,6 +71,7 @@ class Table implements CompilerInterface
                 . $this->sanitizeTextForTable($description) . ' |' . self::NEWLINE;
         }
 
+        $contents .= self::NEWLINE;
         $contents .= '</div>';
         $contents .= self::PARAGRAPH;
 
