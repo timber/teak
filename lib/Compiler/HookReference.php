@@ -59,7 +59,7 @@ class HookReference implements CompilerInterface
             $type = $entry[0];
             $contents = $entry[1];
 
-            if (T_DOC_COMMENT === $type) {
+            if ('T_DOC_COMMENT' === $type) {
                 $docBlockFactory = \phpDocumentor\Reflection\DocBlockFactory::createInstance();
                 $docBlock = $docBlockFactory->create($contents);
 
@@ -217,6 +217,8 @@ class HookReference implements CompilerInterface
 
     private function getHookType($name)
     {
+        // Trim leading slashes.
+        $name = ltrim($name, '\\');
         $name = explode('_', $name);
         $name = reset($name);
 
@@ -240,7 +242,7 @@ class HookReference implements CompilerInterface
         $keywords = ['Filters', 'Fires'];
 
         foreach ($keywords as $keyword) {
-            if (substr($docBlock->getSummary(), 0, mb_strlen($keyword)) === $keyword) {
+            if (str_starts_with($docBlock->getSummary(), $keyword)) {
                 return true;
             }
         }
@@ -252,6 +254,17 @@ class HookReference implements CompilerInterface
     {
         $tokens = token_get_all($this->file->getSource());
 
-        return $tokens;
+        foreach ($tokens as &$token){
+            if (is_array($token)) {
+                $token[0] = token_name($token[0]);
+            }
+        }
+
+        // Filter out whitespace tokens.
+        $tokens = array_filter($tokens, function ($token) {
+            return !is_array($token) || !in_array($token[0], ['T_WHITESPACE']);
+        });
+
+        return array_values($tokens);
     }
 }
