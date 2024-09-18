@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.1](https://github.com/timber/teak/compare/v1.2.0...v1.2.1) (2024-09-18)
+
+
+### Bug Fixes
+
+* Fix hook reference ([533b163](https://github.com/timber/teak/commit/533b163b4efce6410609fe6af7d7f9a067f5c53c))
+* Fix whitespace for table wrappers ([03f93aa](https://github.com/timber/teak/commit/03f93aa076a1d8f7447f9d8e46d8b8f77a272c6c))
+
 ## [1.2.0](https://github.com/timber/teak/compare/v1.1.0...v1.2.0) (2024-09-13)
 
 
