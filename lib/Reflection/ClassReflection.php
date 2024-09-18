@@ -22,7 +22,14 @@ class ClassReflection extends Reflection
 
     public function addParentInformation($parentClass)
     {
-        $this->parentMethods = array_merge($this->parentMethods, $parentClass->getMethods());
+        $methods = array_map(function ($method) {
+            return $method->getName();
+        }, $this->parentMethods);
+        $parent_methods = array_filter($parentClass->getMethods(), function ($parent_method) use ($methods) {
+            return !in_array($parent_method->getName(), $methods);
+        });
+
+        $this->parentMethods = array_merge($this->parentMethods, $parent_methods);
         $this->parentProperties = $parentClass->getProperties();
     }
 
@@ -40,7 +47,15 @@ class ClassReflection extends Reflection
         $methods = $this->reflection->getMethods();
 
         if ($this->reflection->getParent() && !empty($this->parentMethods)) {
-            $methods = array_merge($methods, $this->parentMethods);
+            // Filter out parent methods that are already defined in the child class.
+            $method_names = array_map(function ($method) {
+                return $method->getName();
+            }, $methods);
+            $parent_methods = array_filter($this->parentMethods, function ($parent_method) use ($method_names) {
+                return !in_array($parent_method->getName(), $method_names);
+            });
+
+            $methods = array_merge($methods, $parent_methods);
         }
 
         $methods = array_filter($methods, function ($item) {
