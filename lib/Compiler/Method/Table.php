@@ -50,8 +50,7 @@ class Table implements CompilerInterface
         });
 
         $contents = '<div class="table-methods table-responsive">';
-        $contents .= self::PARAGRAPH;
-
+        $contents .= self::NEWLINE;
         $contents .= '| Name | Return Type | Summary/Returns |' . self::NEWLINE;
         $contents .= '| --- | --- | --- |' . self::NEWLINE;
 
@@ -59,7 +58,6 @@ class Table implements CompilerInterface
             $contents .= $this->compileMethod($method);
         }
 
-        $contents .= self::NEWLINE;
         $contents .= '</div>';
         $contents .= self::PARAGRAPH;
 

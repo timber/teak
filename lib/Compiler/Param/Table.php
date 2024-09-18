@@ -41,7 +41,9 @@ class Table implements CompilerInterface
         if (!is_array($this->params) || empty($this->params)) {
             return $contents;
         }
+
         $contents = '<div class="table-responsive">';
+        $contents .= self::NEWLINE;
         $contents .= '| Name | Type | Description |' . self::NEWLINE;
         $contents .= '| --- | --- | --- |' . self::NEWLINE;
 
@@ -69,8 +71,8 @@ class Table implements CompilerInterface
                 . $this->sanitizeTextForTable($description) . ' |' . self::NEWLINE;
         }
 
-        $contents .= self::NEWLINE;
         $contents .= '</div>';
+        $contents .= self::PARAGRAPH;
 
         return $contents;
     }

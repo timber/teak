@@ -44,8 +44,7 @@ class Table implements CompilerInterface
         }
 
         $contents .= '<div class="table-properties table-responsive">';
-        $contents .= self::PARAGRAPH;
-
+        $contents .= self::NEWLINE;
         $contents .= '| Name | Type | Description |' . self::NEWLINE;
         $contents .= '| --- | --- | --- |' . self::NEWLINE;
 
