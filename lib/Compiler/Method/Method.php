@@ -92,7 +92,9 @@ class Method implements CompilerInterface
         if (!empty($this->class->getParentMethods())
             && in_array($this->method->reflection->getFqsen()->__toString(), array_keys($this->class->getParentMethods()))
        ) {
-            // @todo: Add info about inherited method and possibly a link to the parent class.
+            $contents .= self::NEWLINE;
+            $contents .= '*This method is inherited from `' . $this->class->getParent() . '`.*';
+            $contents .= self::PARAGRAPH;
        }
 
         if ($this->method->hasParameters()) {
