@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.1](https://github.com/timber/teak/compare/v1.2.0...v1.2.1) (2024-09-19)
+
+
+### Bug Fixes
+
+* Add line with info about inherited method ([cb963ee](https://github.com/timber/teak/commit/cb963ee900b57dc42632de0c22cbdbfb18d5f752))
+* Add logic for adding inherited method info ([e47b91e](https://github.com/timber/teak/commit/e47b91ea43fe4d97d929d4b9b9dfe833f979092e))
+* Fix broken tables ([59549b2](https://github.com/timber/teak/commit/59549b25e2339a009368f53315d703e1395c58d4))
+* Fix hook reference ([533b163](https://github.com/timber/teak/commit/533b163b4efce6410609fe6af7d7f9a067f5c53c))
+* Fix whitespace for table wrappers ([03f93aa](https://github.com/timber/teak/commit/03f93aa076a1d8f7447f9d8e46d8b8f77a272c6c))
+* Only include parent methods that are not already present ([6d3ab73](https://github.com/timber/teak/commit/6d3ab7395dc07b917514303400cc2814fca8c34f))
+
 ## [1.2.0](https://github.com/timber/teak/compare/v1.1.0...v1.2.0) (2024-09-13)
 
 
