@@ -89,13 +89,14 @@ class Method implements CompilerInterface
         // Return Tag
         $contents .= (new Return_($this->method))->compile();
 
-        if (!empty($this->class->getParentMethods())
+        if (
+            $this->class && !empty($this->class->getParentMethods())
             && in_array($this->method->reflection->getFqsen()->__toString(), array_keys($this->class->getParentMethods()))
-       ) {
+        ) {
             $contents .= self::NEWLINE;
             $contents .= '*This method is inherited from `' . $this->class->getParent() . '`.*';
             $contents .= self::PARAGRAPH;
-       }
+        }
 
         if ($this->method->hasParameters()) {
             $paramsTable = new Table($this->method->getParameters());
