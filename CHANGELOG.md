@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/timber/teak/compare/v1.2.1...v1.2.2) (2024-10-07)
+
+
+### Bug Fixes
+
+* Fix for function generator not working because class is not defined ([#16](https://github.com/timber/teak/issues/16)) ([09a1603](https://github.com/timber/teak/commit/09a1603eceb86e6f202304a962851f7254a64762))
+
 ## [1.2.1](https://github.com/timber/teak/compare/v1.2.0...v1.2.1) (2024-09-19)
 
 
