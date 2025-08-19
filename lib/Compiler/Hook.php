@@ -6,6 +6,7 @@ use Teak\Compiler\Param\Table as ParamTable;
 use Teak\Compiler\Tag\Deprecated;
 use Teak\Compiler\Tag\Description;
 use Teak\Compiler\Tag\Example;
+use Teak\Compiler\Tag\Hooked;
 use Teak\Compiler\Tag\Link;
 use Teak\Compiler\Tag\See;
 use Teak\Compiler\Tag\Since;
@@ -54,6 +55,9 @@ class Hook implements CompilerInterface
 
         // Link tag
         $contents .= (new Link($this->docBlock))->compile();
+
+        // Hooked tag
+        $contents .= (new Hooked($this->docBlock))->compile();
 
         // Since tag
         $contents .= (new Since($this->docBlock))->compile();
