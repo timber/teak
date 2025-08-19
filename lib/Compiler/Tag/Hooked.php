@@ -42,31 +42,56 @@ class Hooked implements CompilerInterface
       $contents .= '**Hooked** ' . self::PARAGRAPH;
       $contents .= '<div class="table-hooked table-responsive">';
       $contents .= self::PARAGRAPH;
-      $contents .= '| Name | priority | Description |' . self::NEWLINE;
+      $contents .= '| Name | Priority | Description |' . self::NEWLINE;
       $contents .= '| --- | --- | --- |' . self::NEWLINE;
       foreach ($this->tags as $tag) {
-
-         // hook name is everything before the first -
-         $hook_name = strstr($tag, '-', true);
-
-         // priority is everything between the first - and (
-         $hook_priority = substr($tag, strlen($hook_name) + 1, strpos($tag, '(') - strlen($hook_name) - 1);
-
-         // description is everything between ( and )
-         $hook_description = substr($tag, strpos($tag, '(') + 1, strrpos($tag, ')') - strpos($tag, '(') - 1);
+         $parsed = $this->parseHookTag($tag);
 
          $contents .= sprintf(
             '| <span class="hook-name"><code>%1$s</code></span> | '
                . '<span class="hook-priority">%2$s</span> | '
                . '<span class="hook-description">%3$s</span> |' . self::NEWLINE,
-            $hook_name,
-            $hook_priority,
-            $hook_description
+            $parsed['name'],
+            $parsed['priority'],
+            $parsed['description']
          );
       }
       $contents .= self::PARAGRAPH;
       $contents .= '</div>';
       $contents .= self::PARAGRAPH;
       return $contents;
+   }
+
+   /**
+    * Parse a hook tag to extract name, priority, and description.
+    *
+    * @param string $tag
+    * @return array
+    */
+   private function parseHookTag($tag)
+   {
+      // Extract description from parentheses
+      $description = 'No description provided';
+      if (preg_match('/\(([^)]+)\)/', $tag, $matches)) {
+         $description = $matches[1];
+         // Remove description from tag for further parsing
+         $tag = preg_replace('/\([^)]+\)/', '', $tag);
+      }
+
+      // Split by dash to get name and priority
+      $parts = explode('-', $tag, 2);
+      $name = trim($parts[0]);
+      $priority = isset($parts[1]) ? trim($parts[1]) : '10';
+
+      // Default priority if empty
+      if (empty($priority)) {
+         $priority = '10';
+      }
+
+      return [
+         'name' => $name,
+         'priority' => $priority,
+         'description' => $description
+      ];
    }
 }
