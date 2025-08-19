@@ -45,6 +45,12 @@ class Hooked implements CompilerInterface
       $contents .= '| Name | Priority | Description |' . self::NEWLINE;
       $contents .= '| --- | --- | --- |' . self::NEWLINE;
       foreach ($this->tags as $tag) {
+         // if tags is empty
+
+         if (strlen(trim($tag)) == 0) {
+            continue;
+         }
+
          $parsed = $this->parseHookTag($tag);
 
          $contents .= sprintf(
