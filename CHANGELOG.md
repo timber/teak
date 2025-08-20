@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/timber/teak/compare/v1.2.2...v1.3.0) (2025-08-20)
+
+
+### Features
+
+* Add Hooked tag compilation ([#18](https://github.com/timber/teak/issues/18)) ([55d1e33](https://github.com/timber/teak/commit/55d1e333287ce5b9e0c686dea09a7785e6ebc01e))
+
 ## [1.2.2](https://github.com/timber/teak/compare/v1.2.1...v1.2.2) (2024-10-07)
 
 
