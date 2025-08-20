@@ -158,6 +158,20 @@ The `@example` tag allows you add code examples to your DocBlocks, including fen
 function my_method( $param1 = 'value', $param2 = true ) {}
 ```
 
+#### @hooked
+
+The `@hooked` tag allows you to mark which internal functions are hooked to your action.
+
+```php
+/**
+ * Fires in the head element of the website
+ * 
+ * @hooked my_statistics_function - 10 (Outputs the statistics code, if enabled)
+ * @hooked my_analytics_function - 11 (Outputs the analytics meta tags, if enabled)
+ */
+do_action('my_custom_head');
+```
+
 #### Parameters that are arrays
 
 Teak supports [parameters that are arrays](https://make.wordpress.org/core/handbook/best-practices/inline-documentation-standards/php/#1-1-parameters-that-are-arrays).
