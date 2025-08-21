@@ -27,6 +27,20 @@ class DocBlock
         return $this->reflection->hasTag($name);
     }
 
+    public function getTags($name)
+    {
+        /**
+         * @var array $tags
+         */
+        $tags = $this->reflection->getTagsByName($name);
+
+        if (empty($tags)) {
+            return null;
+        }
+
+        return $tags;
+    }
+
     /**
      * @param $name
      *
