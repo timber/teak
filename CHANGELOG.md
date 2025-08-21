@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/timber/teak/compare/v1.3.0...v1.3.1) (2025-08-21)
+
+
+### Bug Fixes
+
+* Add getTags method to retrieve tags by name ([4d71fc0](https://github.com/timber/teak/commit/4d71fc07018858159c50b61474bcd21b47b65bed))
+
 ## [1.3.0](https://github.com/timber/teak/compare/v1.2.2...v1.3.0) (2025-08-20)
 
 
