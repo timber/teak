@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/timber/teak/compare/v1.3.1...v1.4.0) (2026-04-20)
+
+
+### Features
+
+* Add support for Traits ([#21](https://github.com/timber/teak/issues/21)) ([e524a4b](https://github.com/timber/teak/commit/e524a4bb152f411e4194893a8c266acba5d8f6e8))
+
 ## [1.3.1](https://github.com/timber/teak/compare/v1.3.0...v1.3.1) (2025-08-21)
 
 
