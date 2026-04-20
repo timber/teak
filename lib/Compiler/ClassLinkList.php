@@ -64,6 +64,20 @@ class ClassLinkList
                     'filename' => $filePrefix . mb_strtolower(str_replace("\\", '-', ltrim($class->getFqsen(), "\\"))),
                 ];
             }
+
+            // Process traits
+            foreach ($file->getTraits() as $trait) {
+                $classReflection = new ClassReflection($trait);
+
+                if ($classReflection->shouldIgnore()) {
+                    continue;
+                }
+
+                $classes[ltrim($trait->getFqsen()->__toString(), "\\")] = [
+                    'path'     => $file->getPath(),
+                    'filename' => $filePrefix . mb_strtolower(str_replace("\\", '-', ltrim($trait->getFqsen(), "\\"))),
+                ];
+            }
         }
 
         $this->set($classes);

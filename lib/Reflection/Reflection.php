@@ -3,6 +3,7 @@
 namespace Teak\Reflection;
 
 use phpDocumentor\Reflection\Php\Class_;
+use phpDocumentor\Reflection\Php\Trait_;
 use phpDocumentor\Reflection\Php\Method;
 use phpDocumentor\Reflection\Php\Property;
 
@@ -18,7 +19,7 @@ class Reflection
     /**
      * Reflection constructor.
      *
-     * @param Class_|Method|Property $reflection
+     * @param Class_|Trait_|Method|Property $reflection
      */
     public function __construct($reflection)
     {
@@ -29,23 +30,28 @@ class Reflection
         }
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->reflection->getName();
     }
 
-    public function hasDocBlock() {
+    public function hasDocBlock()
+    {
         return !empty($this->getDocBlock());
     }
 
-    public function getDocBlock() {
+    public function getDocBlock()
+    {
         return $this->docBlock;
     }
 
-    public function hasSummary() {
+    public function hasSummary()
+    {
         return !empty($this->getSummary());
     }
 
-    public function getSummary() {
+    public function getSummary()
+    {
         if (!$this->docBlock) {
             return '';
         }
@@ -53,11 +59,13 @@ class Reflection
         return $this->docBlock->getSummary();
     }
 
-    public function hasDescription() {
+    public function hasDescription()
+    {
         return !empty($this->getDescription());
     }
 
-    public function getDescription() {
+    public function getDescription()
+    {
         if (!$this->docBlock) {
             return '';
         }
@@ -113,7 +121,8 @@ class Reflection
         return $this->hasTag('deprecated');
     }
 
-    public function getDeprecationMessage() {
+    public function getDeprecationMessage()
+    {
         if ($this->hasTag('deprecated')) {
             return $this->getTag('deprecated')->getDescription();
         }
@@ -121,7 +130,8 @@ class Reflection
         return null;
     }
 
-    public function getTitle() {
+    public function getTitle()
+    {
         $title = $this->reflection->getFqsen();
         $title = ltrim('\\', $title);
 
@@ -133,13 +143,14 @@ class Reflection
      *
      * @return bool
      */
-    public function shouldIgnore() {
+    public function shouldIgnore()
+    {
         return !$this->docBlock
-               || !$this->hasTag('api')
-               || $this->hasTag('ignore')
-               || $this->hasTag('internal')
-               || (method_exists($this->reflection, 'getVisibility')
-                   && $this->reflection->getVisibility() === 'private'
-               );
+            || !$this->hasTag('api')
+            || $this->hasTag('ignore')
+            || $this->hasTag('internal')
+            || (method_exists($this->reflection, 'getVisibility')
+                && $this->reflection->getVisibility() === 'private'
+            );
     }
 }

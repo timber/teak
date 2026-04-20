@@ -109,6 +109,10 @@ class ClassCompilerTest extends TestCase
             if ($class->getName() === 'TestClass') {
                 $contents = $classReferenceHandler->compileClass($class);
 
+                // Verify the class shows it uses the trait
+                $this->assertStringContainsString('This class uses the trait', $contents, 'Class should show it uses a trait');
+                $this->assertStringContainsString('TestTrait', $contents, 'Trait name should appear in trait usage statement');
+
                 // Verify the class documentation contains trait methods
                 $this->assertStringContainsString('trait_method', $contents, 'Trait method should appear in class documentation');
                 $this->assertStringContainsString('Trait method summary', $contents, 'Trait method summary should appear in class documentation');

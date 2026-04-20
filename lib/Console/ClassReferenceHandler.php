@@ -3,6 +3,7 @@
 namespace Teak\Console;
 
 use phpDocumentor\Reflection\Php\Class_;
+use phpDocumentor\Reflection\Php\Trait_;
 use phpDocumentor\Reflection\Php\ProjectFactory;
 use phpDocumentor\Reflection\Project;
 use Teak\Compiler\ClassLinkList;
@@ -72,10 +73,14 @@ class ClassReferenceHandler
         $files = $project->getFiles();
 
         $classMap = [];
+        $traitMap = [];
 
         foreach ($files as $file) {
             foreach ($file->getClasses() as $class) {
-                $classMap[$class->getFqsen()->__toString() ] = $class;
+                $classMap[$class->getFqsen()->__toString()] = $class;
+            }
+            foreach ($file->getTraits() as $trait) {
+                $traitMap[$trait->getFqsen()->__toString()] = $trait;
             }
         }
 
@@ -87,6 +92,27 @@ class ClassReferenceHandler
                 foreach ($parents as $parent) {
                     $classReflection->addParentInformation($parent);
                 }
+
+                // Add trait information
+                if (method_exists($class, 'getUsedTraits')) {
+                    foreach ($class->getUsedTraits() as $usedTrait) {
+                        $trait = $traitMap[$usedTrait->__toString()] ?? null;
+                        if ($trait) {
+                            $classReflection->addTraitInformation($trait);
+                        }
+                    }
+                }
+
+                if ($classReflection->shouldIgnore()) {
+                    continue;
+                }
+
+                $classReflections[] = $classReflection;
+            }
+
+            // Process traits
+            foreach ($file->getTraits() as $trait) {
+                $classReflection = new ClassReflection($trait);
 
                 if ($classReflection->shouldIgnore()) {
                     continue;
@@ -117,7 +143,7 @@ class ClassReferenceHandler
         return $parents;
     }
 
-    public function getProject() : Project
+    public function getProject(): Project
     {
         return $this->project;
     }
