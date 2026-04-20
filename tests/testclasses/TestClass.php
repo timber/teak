@@ -22,20 +22,20 @@ namespace Tests\TestClasses;
  */
 class TestClass
 {
+    use TestTrait;
+
     /**
      * Public property summary.
      *
-	 * @api
-	 * @var string Public property description.
-	 */
-	public $public_property;
+     * @api
+     * @var string Public property description.
+     */
+    public $public_property;
 
     /**
      * TestClass constructor.
      */
-    public function __construct() {
-
-    }
+    public function __construct() {}
 
     /**
      * Summary.
@@ -54,7 +54,8 @@ class TestClass
      *
      * @return string Description.
      */
-    public function default_method( $string_var, $int_var ) {
+    public function default_method($string_var, $int_var)
+    {
         return 'Description';
     }
 
@@ -79,7 +80,7 @@ class TestClass
      *
      * @param string $string_var Parameter description.
      */
-    public function string_empty( $string_var ) {}
+    public function string_empty($string_var) {}
 
     /**
      * Function summary
@@ -87,7 +88,8 @@ class TestClass
      * @param string $string_var Parameter description.
      * @return string $string_return Return description.
      */
-    public function doc_param_string_return_string( $string_var ) {
+    public function doc_param_string_return_string($string_var)
+    {
         $string_return = '';
 
         return $string_return;
