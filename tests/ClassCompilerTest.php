@@ -108,11 +108,11 @@ class ClassCompilerTest extends TestCase
         foreach ($classList as $class) {
             if ($class->getName() === 'TestClass') {
                 $contents = $classReferenceHandler->compileClass($class);
-                
+
                 // Verify the class documentation contains trait methods
                 $this->assertStringContainsString('trait_method', $contents, 'Trait method should appear in class documentation');
                 $this->assertStringContainsString('Trait method summary', $contents, 'Trait method summary should appear in class documentation');
-                
+
                 // Verify trait properties are included
                 $this->assertStringContainsString('trait_property', $contents, 'Trait property should appear in class documentation');
             }
