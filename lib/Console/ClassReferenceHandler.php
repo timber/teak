@@ -39,8 +39,6 @@ class ClassReferenceHandler
     }
 
     /**
-     * @param ClassReflection $classReflection
-     *
      * @return string
      */
     public function compileClass(ClassReflection $classReflection)
@@ -57,9 +55,8 @@ class ClassReferenceHandler
         }
 
         $classReference = new ClassReference($classReflection);
-        $contents .= $classReference->compile();
 
-        return $contents;
+        return $contents . $classReference->compile();
     }
 
     /**

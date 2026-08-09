@@ -53,43 +53,35 @@ abstract class ReferenceGenerator extends Command
                 self::OPT_IGNORE,
                 'i',
                 InputOption::VALUE_REQUIRED,
-                'List of directories to ignore',
-                null
+                'List of directories to ignore'
             )
             ->addOption(
                 self::OPT_FILE_NAME,
                 null,
                 InputOption::VALUE_REQUIRED,
-                'File Name (the .md extension is appended automatically)',
-                null
+                'File Name (the .md extension is appended automatically)'
             )
             ->addOption(
                 self::OPT_FILE_PREFIX,
                 null,
                 InputOption::VALUE_REQUIRED,
-                'File Prefix',
-                null
+                'File Prefix'
             )
             ->addOption(
                 self::OPT_FILE_TITLE,
                 null,
                 InputOption::VALUE_REQUIRED,
-                'File Title (Heading 1 in the Markdown document). Only applicable to hooks and functions reference.',
-                null
+                'File Title (Heading 1 in the Markdown document). Only applicable to hooks and functions reference.'
             )
             ->addOption(
                 self::OPT_FRONT_MATTER_STYLE,
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Front Matter type. Currently, only "YAML" is supported (Will output a Heading 1 if not provided).',
-                null
+                'Front Matter type. Currently, only "YAML" is supported (Will output a Heading 1 if not provided).'
             );
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
      * @throws \InvalidArgumentException
      */
     protected function execute(InputInterface $input, OutputInterface $output) : int
@@ -109,7 +101,6 @@ abstract class ReferenceGenerator extends Command
     /**
      * Gets files as an array.
      *
-     * @param InputInterface $input
      *
      * @return array|string|string[]|null
      */

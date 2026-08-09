@@ -6,11 +6,11 @@ use Teak\Reflection\ClassReflection;
 
 class ClassLinkList
 {
-    private static $instance = null;
+    private static $instance;
 
     protected $classList;
 
-    protected $referencePath = null;
+    protected $referencePath;
 
     public static function getInstance()
     {
