@@ -17,11 +17,11 @@ class HookReference implements CompilerInterface
      */
     protected $file;
 
-    private $lastDocBlock = null;
+    private $lastDocBlock;
 
     private $hookPrefix = '';
 
-    private $hookType = null;
+    private $hookType;
 
     private $contents;
 

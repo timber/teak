@@ -47,16 +47,16 @@ class FunctionReferenceGenerator extends ReferenceGenerator
         // Make sure there’s a trailing slash
         $outputFolder = rtrim($input->getOption(self::OPT_OUTPUT), '/') . '/';
 
-        $title = !empty($input->getOption(self::OPT_FILE_TITLE))
-            ? $input->getOption(self::OPT_FILE_TITLE)
-            : 'Functions';
+        $title = empty($input->getOption(self::OPT_FILE_TITLE))
+            ? 'Functions'
+            : $input->getOption(self::OPT_FILE_TITLE);
 
         $frontMatter = $input->getOption(self::OPT_FRONT_MATTER_STYLE);
 
         if (empty($frontMatter)) {
             $contents .= (new Heading($title, 1))->compile();
         } elseif ('YAML' === $frontMatter) {
-            $contents .= (new Yaml($title, null))->compile();
+            $contents .= (new Yaml($title))->compile();
         }
 
         foreach ($project->getFiles() as $file) {
@@ -73,7 +73,7 @@ class FunctionReferenceGenerator extends ReferenceGenerator
                 $functions_to_document[] = $function;
             }
 
-            if (empty($functions_to_document)) {
+            if ($functions_to_document === []) {
                 continue;
             }
 
@@ -87,9 +87,9 @@ class FunctionReferenceGenerator extends ReferenceGenerator
             }
         }
 
-        $filename = !empty($input->getOption(self::OPT_FILE_NAME))
-            ? $input->getOption(self::OPT_FILE_NAME)
-            : 'functions';
+        $filename = empty($input->getOption(self::OPT_FILE_NAME))
+            ? 'functions'
+            : $input->getOption(self::OPT_FILE_NAME);
 
         // Add prefix
         $filename = $input->getOption(self::OPT_FILE_PREFIX) .  $filename . '.md';

@@ -133,9 +133,8 @@ class Reflection
     public function getTitle()
     {
         $title = $this->reflection->getFqsen();
-        $title = ltrim('\\', $title);
 
-        return $title;
+        return ltrim('\\', $title);
     }
 
     /**

@@ -20,7 +20,7 @@ class Yaml implements CompilerInterface
     public function __construct($title, $linkTitle = null)
     {
         $this->title = $this->sanitizeTitle($title);
-        $this->linkTitle = !empty($linkTitle) ? $this->sanitizeTitle($linkTitle) : null;
+        $this->linkTitle = empty($linkTitle) ? null : $this->sanitizeTitle($linkTitle);
     }
 
     /**
@@ -49,8 +49,7 @@ class Yaml implements CompilerInterface
         $contents .= 'is_reference: true' . self::NEWLINE;
 
         $contents .= '---';
-        $contents .= self::PARAGRAPH;
 
-        return $contents;
+        return $contents . self::PARAGRAPH;
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Teak\Compiler\Hook;
 
 use Teak\Compiler\CompilerInterface;
