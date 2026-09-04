@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.1](https://github.com/timber/teak/compare/v1.4.0...v1.4.1) (2026-09-04)
+
+
+### Miscellaneous Chores
+
+* Add .gitattributes file to manage export-ignore settings ([2a8eafd](https://github.com/timber/teak/commit/2a8eafd933a81ecefd2384bada4932c42384a72a))
+* Update dependencies and run Rector ([#23](https://github.com/timber/teak/issues/23)) ([3b6b985](https://github.com/timber/teak/commit/3b6b985c71fb5968c18db47848beb05f720b27d1))
+
 ## [1.4.0](https://github.com/timber/teak/compare/v1.3.1...v1.4.0) (2026-04-20)
 
 
