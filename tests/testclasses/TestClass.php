@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Tests\TestClasses;
 
 /**
@@ -33,6 +31,11 @@ class TestClass
      * @var string Public property description.
      */
     public $public_property;
+
+    /**
+     * TestClass constructor.
+     */
+    public function __construct() {}
 
     /**
      * Summary.
@@ -87,6 +90,8 @@ class TestClass
      */
     public function doc_param_string_return_string($string_var)
     {
-        return '';
+        $string_return = '';
+
+        return $string_return;
     }
 }

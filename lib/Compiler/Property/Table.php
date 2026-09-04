@@ -39,7 +39,7 @@ class Table implements CompilerInterface
     {
         $contents = '';
 
-        if (!is_array($this->properties) || $this->properties === []) {
+        if (!is_array($this->properties) || empty($this->properties)) {
             return $contents;
         }
 
@@ -61,7 +61,8 @@ class Table implements CompilerInterface
 
         $contents .= self::PARAGRAPH;
         $contents .= '</div>';
+        $contents .= self::PARAGRAPH;
 
-        return $contents . self::PARAGRAPH;
+        return $contents;
     }
 }

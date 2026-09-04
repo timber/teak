@@ -39,6 +39,8 @@ class Deprecated implements CompilerInterface
             return $contents;
         }
 
-        return $contents . ('**DEPRECATED** since ' . $this->tag . self::PARAGRAPH);
+        $contents .= '**DEPRECATED** since ' . $this->tag . self::PARAGRAPH;
+
+        return $contents;
     }
 }

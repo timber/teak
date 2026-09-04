@@ -6,4 +6,3 @@
 /phpunit.xml export-ignore
 /tests export-ignore
 /composer.lock export-ignore
-/rector.php export-ignore

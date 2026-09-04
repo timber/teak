@@ -33,7 +33,9 @@ class PropertyReflection extends Reflection
     public function getDescription()
     {
         if ($this->hasTag('var')) {
-            return $this->getTag('var')->getDescription();
+            $description = $this->getTag('var')->getDescription();
+
+            return $description;
         }
 
         return null;

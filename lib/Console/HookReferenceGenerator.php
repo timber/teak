@@ -36,19 +36,22 @@ class HookReferenceGenerator extends ReferenceGenerator
                 self::OPT_HOOK_TYPE,
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Hook type ("filter" or "action")'
+                'Hook type ("filter" or "action")',
+                null
             )
             ->addOption(
                 self::OPT_HOOK_PREFIX,
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Hook prefix (to select only hooks with a certain prefix)'
+                'Hook prefix (to select only hooks with a certain prefix)',
+                null
             )
             ->addOption(
                 self::OPT_CLASS_REFERENCE_PATH,
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Path to the class reference relative to the document root.'
+                'Path to the class reference relative to the document root.',
+                null
             );
     }
 
@@ -98,16 +101,16 @@ class HookReferenceGenerator extends ReferenceGenerator
         ClassLinkList::getInstance()->generate($project, $filePrefix);
         ClassLinkList::getInstance()->setReferencePath($referencePath);
 
-        $title = empty($input->getOption(self::OPT_FILE_TITLE))
-            ? $types[$type]['title']
-            : $input->getOption(self::OPT_FILE_TITLE);
+        $title = !empty($input->getOption(self::OPT_FILE_TITLE))
+            ? $input->getOption(self::OPT_FILE_TITLE)
+            : $types[$type]['title'];
 
         $frontMatter = $input->getOption(self::OPT_FRONT_MATTER_STYLE);
 
         if (empty($frontMatter)) {
             $contents = (new Heading($title, 1))->compile();
         } elseif ('YAML' === $frontMatter) {
-            $contents = (new Yaml($title))->compile();
+            $contents = (new Yaml($title, null))->compile();
         }
 
         foreach ($project->getFiles() as $file) {
@@ -120,9 +123,9 @@ class HookReferenceGenerator extends ReferenceGenerator
             $returns[] = $contents;
         }
 
-        $filename = empty($input->getOption(self::OPT_FILE_NAME))
-            ? $types[$type]['filename']
-            : $input->getOption(self::OPT_FILE_NAME);
+        $filename = !empty($input->getOption(self::OPT_FILE_NAME))
+            ? $input->getOption(self::OPT_FILE_NAME)
+            : $types[$type]['filename'];
 
         // Add prefix
         $filename = $filePrefix . $filename . '.md';

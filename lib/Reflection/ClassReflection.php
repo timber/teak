@@ -62,7 +62,7 @@ class ClassReflection extends Reflection
         $methods = $this->reflection->getMethods();
 
         // Add trait methods first (so they can be overridden by class/parent methods)
-        if ($this->traitMethods !== []) {
+        if (!empty($this->traitMethods)) {
             $method_names = array_map(function ($method) {
                 return $method->getName();
             }, $methods);
@@ -73,7 +73,7 @@ class ClassReflection extends Reflection
             $methods = array_merge($methods, $trait_methods);
         }
 
-        if (method_exists($this->reflection, 'getParent') && $this->reflection->getParent() && $this->parentMethods !== []) {
+        if (method_exists($this->reflection, 'getParent') && $this->reflection->getParent() && !empty($this->parentMethods)) {
             // Filter out parent methods that are already defined in the child class.
             $method_names = array_map(function ($method) {
                 return $method->getName();
@@ -102,11 +102,11 @@ class ClassReflection extends Reflection
         $properties = $this->reflection->getProperties();
 
         // Add trait properties
-        if ($this->traitProperties !== []) {
+        if (!empty($this->traitProperties)) {
             $properties = array_merge($properties, $this->traitProperties);
         }
 
-        if (method_exists($this->reflection, 'getParent') && $this->reflection->getParent() && $this->parentProperties !== []) {
+        if (method_exists($this->reflection, 'getParent') && $this->reflection->getParent() && !empty($this->parentProperties)) {
             $properties = array_merge($properties, $this->parentProperties);
         }
 

@@ -106,6 +106,8 @@ class Method implements CompilerInterface
         // Code Example
         $contents .= (new Example($this->method->getDocBlock()))->compile();
 
-        return $contents . self::DIVIDER;
+        $contents .= self::DIVIDER;
+
+        return $contents;
     }
 }

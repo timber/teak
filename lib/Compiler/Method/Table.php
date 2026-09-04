@@ -60,8 +60,9 @@ class Table implements CompilerInterface
 
         $contents .= self::NEWLINE;
         $contents .= '</div>';
+        $contents .= self::PARAGRAPH;
 
-        return $contents . self::PARAGRAPH;
+        return $contents;
     }
 
     /**

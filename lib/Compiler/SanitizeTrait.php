@@ -24,7 +24,9 @@ trait SanitizeTrait
         // Escape '\', and add a zero-width-space (non-visible here in code)
         $title = str_replace('\\', '\\\\​', $title);
 
-        return $this->escapeMarkdownChars($title);
+        $title = $this->escapeMarkdownChars($title);
+
+        return $title;
     }
 
     /**
@@ -36,7 +38,9 @@ trait SanitizeTrait
      */
     public function escapePipe($text)
     {
-        return str_replace('|', '&#124;', $text);
+        $text = str_replace('|', '&#124;', $text);
+
+        return $text;
     }
 
     public function sanitizeTypeList($list)
@@ -83,8 +87,9 @@ trait SanitizeTrait
     public function sanitizeTextForTable($text)
     {
         $text = $this->removeLineBreaks($text);
+        $text = $this->escapePipe($text);
 
-        return $this->escapePipe($text);
+        return $text;
     }
 
     /**
