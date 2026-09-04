@@ -76,8 +76,6 @@ class ParamArray implements CompilerInterface
             $contents .= '</li>';
         }
 
-        $contents .= '</ul>';
-
-        return $contents;
+        return $contents . '</ul>';
     }
 }

@@ -47,7 +47,7 @@ class Hooked implements CompilerInterface
       foreach ($this->tags as $tag) {
          // if tags is empty
 
-         if (strlen(trim($tag)) == 0) {
+         if (trim($tag) === '') {
             continue;
          }
 
@@ -64,8 +64,7 @@ class Hooked implements CompilerInterface
       }
       $contents .= self::PARAGRAPH;
       $contents .= '</div>';
-      $contents .= self::PARAGRAPH;
-      return $contents;
+      return $contents . self::PARAGRAPH;
    }
 
    /**

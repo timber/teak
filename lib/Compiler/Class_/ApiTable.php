@@ -72,8 +72,6 @@ class ApiTable extends Reflection implements CompilerInterface
             $contents .= $methodTable->compile();
         }
 
-        $contents .= PHP_EOL;
-
-        return $contents;
+        return $contents . PHP_EOL;
     }
 }
