@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.2](https://github.com/timber/teak/compare/v1.4.1...v1.4.2) (2026-09-09)
+
+
+### Bug Fixes
+
+* Handle malformed nested parameters in  DocBlocks ([#25](https://github.com/timber/teak/issues/25)) ([d50d76f](https://github.com/timber/teak/commit/d50d76fb9cf3a3b7ef1b2e3b1224df6bd38ae348))
+
 ## [1.4.1](https://github.com/timber/teak/compare/v1.4.0...v1.4.1) (2026-09-04)
 
 
