@@ -48,6 +48,11 @@ class Table implements CompilerInterface
         $contents .= '| --- | --- | --- |' . self::NEWLINE;
 
         foreach ($this->params as $param) {
+            if ($param instanceof \phpDocumentor\Reflection\DocBlock\Tags\InvalidTagame) {
+                $contents .= (new InvalidTag($param))->compile();
+                continue;
+            }
+
             $description = $param->getDescription();
 
             // Detect params that are arrays

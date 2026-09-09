@@ -81,7 +81,7 @@ class TestClass
 
     /**
      * Function summary
-     *
+     * @param array Invalid item that should get reported and not trigger an error.
      * @param string $string_var Parameter description.
      * @return string $string_return Return description.
      */
