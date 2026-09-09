@@ -48,7 +48,7 @@ class Table implements CompilerInterface
         $contents .= '| --- | --- | --- |' . self::NEWLINE;
 
         foreach ($this->params as $param) {
-            if ($param instanceof \phpDocumentor\Reflection\DocBlock\Tags\InvalidTagame) {
+            if ($param instanceof \phpDocumentor\Reflection\DocBlock\Tags\InvalidTag) {
                 $contents .= (new InvalidTag($param))->compile();
                 continue;
             }
