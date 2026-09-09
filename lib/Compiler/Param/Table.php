@@ -55,7 +55,12 @@ class Table implements CompilerInterface
                 // Remove hash strings
                 $description = trim($description, '{}');
 
-                // Tell DocBlock to parse @type tags as @params
+                // Tell DocBlock to parse @type tags as @params. Also allows typed array elements.
+                $description = preg_replace(
+                    '/(^|\R)([ \t]*)@type([ \t]+)([^\s]+)([ \t]+)(?!\$)([A-Za-z_][A-Za-z0-9_]*)(?=[ \t]|$)/',
+                    '$1$2@param$3$4$5\$$6',
+                    $description
+                );
                 $description = str_replace('@type', '@param', $description);
 
                 // Parse as DocBlock

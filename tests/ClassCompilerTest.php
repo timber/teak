@@ -122,4 +122,17 @@ class ClassCompilerTest extends TestCase
             }
         }
     }
+
+    public function testClassWithArrayParameterDescription()
+    {
+        require_once ABSPATH . '/testclasses/TestTrait.php';
+        require_once ABSPATH . '/testclasses/TestClass.php';
+
+        $method = new \ReflectionMethod(\Tests\TestClasses\TestClass::class, 'picture_element');
+        $docBlockFactory = \phpDocumentor\Reflection\DocBlockFactory::createInstance();
+        $docBlock = $docBlockFactory->create($method->getDocComment());
+        $contents = (new \Teak\Compiler\Param\Table($docBlock->getTagsByName('param')))->compile();
+
+        $this->assertStringContainsString('**$attachment_id**', $contents);
+    }
 }
