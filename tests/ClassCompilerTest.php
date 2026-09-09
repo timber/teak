@@ -122,4 +122,31 @@ class ClassCompilerTest extends TestCase
             }
         }
     }
+
+    public function testClassWithArrayParameterDescription()
+    {
+        require_once ABSPATH . '/testclasses/TestTrait.php';
+        require_once ABSPATH . '/testclasses/TestClass.php';
+
+        $method = new \ReflectionMethod(\Tests\TestClasses\TestClass::class, 'picture_element');
+        $docBlockFactory = \phpDocumentor\Reflection\DocBlockFactory::createInstance();
+        $docBlock = $docBlockFactory->create($method->getDocComment());
+        $contents = (new \Teak\Compiler\Param\Table($docBlock->getTagsByName('param')))->compile();
+
+        $this->assertStringContainsString('**$attachment_id**', $contents);
+    }
+
+    public function testClassWithInvalidParameterTag()
+    {
+        require_once ABSPATH . '/testclasses/TestTrait.php';
+        require_once ABSPATH . '/testclasses/TestClass.php';
+
+        $method = new \ReflectionMethod(\Tests\TestClasses\TestClass::class, 'doc_param_string_return_string');
+        $docBlockFactory = \phpDocumentor\Reflection\DocBlockFactory::createInstance();
+        $docBlock = $docBlockFactory->create($method->getDocComment());
+        $contents = (new \Teak\Compiler\Param\Table($docBlock->getTagsByName('param')))->compile();
+
+        $this->assertStringContainsString('[Invalid Tag]', $contents);
+        $this->assertStringContainsString('$string_var', $contents);
+    }
 }

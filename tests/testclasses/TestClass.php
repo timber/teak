@@ -81,7 +81,7 @@ class TestClass
 
     /**
      * Function summary
-     *
+     * @param array Invalid item that should get reported and not trigger an error.
      * @param string $string_var Parameter description.
      * @return string $string_return Return description.
      */
@@ -89,4 +89,22 @@ class TestClass
     {
         return '';
     }
+
+    /**
+     * Picture element.
+     *
+     * @param array $args {
+     *     Additional arguments to help filter the picture element.
+     *
+     *     @type object post The post object.
+     *     @type object loop The loop object.
+     *     @type string card_type The card type.
+     *     @type int attachment_id The attachment ID.
+     *     @type string picture_classes The picture classes.
+     *     @type string image_size The image size.
+     *     @type image_sizes image_sizes The image sizes attribute.
+     *     @type bool focalpoint Whether or not to use the focal point.
+     * }
+     */
+    public function picture_element($args) {}
 }
