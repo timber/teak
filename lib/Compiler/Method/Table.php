@@ -4,6 +4,7 @@ namespace Teak\Compiler\Method;
 
 use phpDocumentor\Reflection\Php\Function_;
 use Teak\Compiler\CompilerInterface;
+use Teak\Compiler\Param\ArrayDefinition;
 use Teak\Compiler\SanitizeTrait;
 use Teak\Reflection\MethodReflection;
 
@@ -72,6 +73,7 @@ class Table implements CompilerInterface
     public function compileMethod($method)
     {
         $name = $method->getName();
+        $arrayDefinition = new ArrayDefinition();
 
         if ($method->isDeprecated()) {
             $name = '~~' . $name . '~~';
@@ -85,7 +87,7 @@ class Table implements CompilerInterface
                 . '<span class="method-type">%3$s</span> | ',
             $name,
             $this->sanitizeAnchor($method->getName()),
-            $this->sanitizeTypeList($method->getReturnType())
+            $this->sanitizeTypeList($arrayDefinition->normalizeArrayShapeType($method->getReturnType()))
         );
 
         $return .= '<span class="method-description">';

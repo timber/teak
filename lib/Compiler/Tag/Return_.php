@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Teak\Compiler\Tag;
 
 use Teak\Compiler\CompilerInterface;
+use Teak\Compiler\Param\ArrayDefinition;
 use Teak\Reflection\MethodReflection;
 
 /**
@@ -40,8 +41,17 @@ class Return_ implements CompilerInterface
             return $contents;
         }
 
-        $contents .= '**Returns:** `' . $this->method->getReturnType() . '` '
-                . $this->method->getReturnDescription();
+        $arrayDefinition = new ArrayDefinition();
+        $type = $arrayDefinition->normalizeArrayShapeType($this->method->getReturnType());
+        $description = $this->method->getReturnDescription();
+        $arrayShapeDescription = $arrayDefinition->compileArrayShape($this->method->getReturnType());
+
+        if ('' !== $arrayShapeDescription) {
+            $description = trim($description . self::PARAGRAPH . $arrayShapeDescription);
+        }
+
+        $contents .= '**Returns:** `' . $type . '` '
+            . $description;
 
         return $contents . self::PARAGRAPH;
     }

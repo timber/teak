@@ -149,4 +149,36 @@ class ClassCompilerTest extends TestCase
         $this->assertStringContainsString('[Invalid Tag]', $contents);
         $this->assertStringContainsString('$string_var', $contents);
     }
+
+    public function testClassWithArrayShapeReturnDescription()
+    {
+        require_once ABSPATH . '/testclasses/TestTrait.php';
+        require_once ABSPATH . '/testclasses/TestClass.php';
+
+        $command = $this->application->find('generate:class-reference');
+
+        $commandTester = new CommandTester($command);
+        $commandTester->execute([
+            'command'  => $command->getName(),
+            'files'    => ABSPATH . '/testclasses/TestClass.php',
+            '--output' => './../temp',
+        ]);
+
+        $files = $command->getFiles($commandTester->getInput());
+
+        $classReferenceHandler = new ClassReferenceHandler($files);
+        $contents = '';
+
+        foreach ($classReferenceHandler->getClassList() as $class) {
+            if ($class->getName() === 'TestClass') {
+                $contents = $classReferenceHandler->compileClass($class);
+            }
+        }
+
+        $this->assertStringContainsString('| <span class="method-name">[business_location()](#business_location)</span> | <span class="method-type">`array` or `false`</span> |', $contents);
+        $this->assertStringContainsString('**Returns:** `array|false` The business location, or false when none is configured.', $contents);
+        $this->assertStringContainsString('**address**<br>`string`', $contents);
+        $this->assertStringContainsString('**zoom**<br>`int`', $contents);
+        $this->assertStringContainsString('**route_link**<br>`string`', $contents);
+    }
 }
