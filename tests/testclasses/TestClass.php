@@ -127,6 +127,8 @@ class TestClass
      *     post_code?: string,
      *     country?: string,
      *     country_short?: string,
+    *     location_link?: string,
+    *     route_link?: string
      * }|false The business location, or false when none is configured.
      *
      * @api
