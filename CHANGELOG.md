@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.1](https://github.com/timber/teak/compare/v1.5.0...v1.5.1) (2026-11-18)
+
+
+### Bug Fixes
+
+* Handle invalid param tags in array descriptions and warn in console ([#29](https://github.com/timber/teak/issues/29)) ([cd2c235](https://github.com/timber/teak/commit/cd2c23503def151e9cc87b37f561dbf511da2722))
+
 ## [1.5.0](https://github.com/timber/teak/compare/v1.4.2...v1.5.0) (2026-11-18)
 
 
