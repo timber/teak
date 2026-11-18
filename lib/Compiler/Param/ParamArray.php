@@ -22,14 +22,17 @@ class ParamArray implements CompilerInterface
      */
     protected $docBlock;
 
+    protected $namePrefix;
+
     /**
      * ParamArray constructor.
      *
      * @param \phpDocumentor\Reflection\DocBlock $docBlock
      */
-    public function __construct($docBlock)
+    public function __construct($docBlock, $namePrefix = '$')
     {
         $this->docBlock = $docBlock;
+        $this->namePrefix = $namePrefix;
     }
 
     /**
@@ -61,7 +64,7 @@ class ParamArray implements CompilerInterface
          * @var Param $param
          */
         foreach ($params as $param) {
-            $contents .= '<li>**$' . $param->getVariableName() . '**<br>';
+            $contents .= '<li>**' . $this->namePrefix . $param->getVariableName() . '**<br>';
             $contents .= $this->sanitizeTypeList($param->getType());
 
             $description = $param->getDescription();

@@ -107,4 +107,34 @@ class TestClass
      * }
      */
     public function picture_element($args) {}
+
+    /**
+     * Business location.
+     *
+     * @return array{
+     *     address?: string,
+     *     lat?: string,
+     *     lng?: string,
+     *     zoom?: int,
+     *     place_id?: string,
+     *     name?: string,
+     *     street_number?: string,
+     *     street_name?: string,
+     *     street_name_short?: string,
+     *     city?: string,
+     *     state?: string,
+     *     state_short?: string,
+     *     post_code?: string,
+     *     country?: string,
+     *     country_short?: string,
+    *     location_link?: string,
+    *     route_link?: string
+     * }|false The business location, or false when none is configured.
+     *
+     * @api
+     */
+    public function business_location()
+    {
+        return false;
+    }
 }
