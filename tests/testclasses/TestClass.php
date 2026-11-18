@@ -91,6 +91,21 @@ class TestClass
     }
 
     /**
+     * Multi-line param after an array param with an invalid nested tag.
+     *
+     * @param array  $args {
+     *      Optional. Array of arguments.
+     *
+     *      @type bool   $show_year => false
+     *      @type string
+     *      @type int    $limit => -1
+     * }
+     * @param string $base Any additional paths that need to be prepended to the URLs that are
+     *                     generated, for example: "tags". Default ''.
+     */
+    public function multiline_param_after_invalid_nested_tag($args = null, $base = '') {}
+
+    /**
      * Picture element.
      *
      * @param array $args {
