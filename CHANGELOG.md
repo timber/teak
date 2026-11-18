@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/timber/teak/compare/v1.4.2...v1.5.0) (2026-11-18)
+
+
+### Features
+
+* Support array shape return documentation ([#27](https://github.com/timber/teak/issues/27)) ([167001e](https://github.com/timber/teak/commit/167001e391f5f9353d9acd8688354a32b82f9fe9))
+
 ## [1.4.2](https://github.com/timber/teak/compare/v1.4.1...v1.4.2) (2026-09-09)
 
 
