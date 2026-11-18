@@ -2,6 +2,7 @@
 
 namespace Teak\Reflection;
 
+use phpDocumentor\Reflection\DocBlock\Tags\InvalidTag;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\Php\Function_;
 use phpDocumentor\Reflection\Php\Method;
@@ -66,6 +67,10 @@ class MethodReflection extends Reflection
                 // If type is default mixed, then check if the parameter provides a better type.
                 if ( $type instanceof Mixed_ ) {
                     foreach ($this->getParameters() as $parameter) {
+                        if ($parameter instanceof InvalidTag) {
+                            continue;
+                        }
+
                         if (
                             $parameter->getVariableName() === $argument->getName()
                             && $parameter->getType()

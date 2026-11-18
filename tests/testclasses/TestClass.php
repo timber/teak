@@ -109,6 +109,21 @@ class TestClass
     public function picture_element($args) {}
 
     /**
+     * Invalid tags.
+     *
+     * @api
+     * @param array $args {
+     *     Arguments.
+     *
+     *     @param string $valid Valid nested item.
+     *     @param array Invalid nested item.
+     * }
+     * @param string $name Valid item.
+     * @param array Invalid item.
+     */
+    public function invalid_param_tags($args, $name, $other) {}
+
+    /**
      * Business location.
      *
      * @return array{
