@@ -150,6 +150,23 @@ class ClassCompilerTest extends TestCase
         $this->assertStringContainsString('$string_var', $contents);
     }
 
+    public function testMultilineParamAfterInvalidNestedTag()
+    {
+        require_once ABSPATH . '/testclasses/TestTrait.php';
+        require_once ABSPATH . '/testclasses/TestClass.php';
+
+        $method = new \ReflectionMethod(\Tests\TestClasses\TestClass::class, 'multiline_param_after_invalid_nested_tag');
+        $docBlockFactory = \phpDocumentor\Reflection\DocBlockFactory::createInstance();
+        $docBlock = $docBlockFactory->create($method->getDocComment());
+        $contents = (new \Teak\Compiler\Param\Table($docBlock->getTagsByName('param')))->compile();
+
+        $this->assertStringContainsString('**$limit**', $contents);
+        $this->assertStringContainsString(
+            '| $base | `string` | Any additional paths that need to be prepended to the URLs that are generated, for example: "tags". Default \'\'. |',
+            $contents
+        );
+    }
+
     public function testClassWithArrayShapeReturnDescription()
     {
         require_once ABSPATH . '/testclasses/TestTrait.php';

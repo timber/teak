@@ -4,6 +4,7 @@ namespace Teak\Compiler\Param;
 
 use Teak\Compiler\CompilerInterface;
 use Teak\Compiler\SanitizeTrait;
+use Teak\Compiler\Warnings;
 
 class InvalidTag implements CompilerInterface
 {
@@ -29,6 +30,8 @@ class InvalidTag implements CompilerInterface
       if (empty($error)) {
          $error = 'Invalid param tag';
       }
+
+      Warnings::getInstance()->add('Invalid @param tag - ' . $error);
 
       return '| [Invalid Tag] | | Error: ' . $this->sanitizeTextForTable($error) . ' |' . self::NEWLINE;
    }

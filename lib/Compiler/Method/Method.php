@@ -14,6 +14,7 @@ use Teak\Compiler\Tag\Example;
 use Teak\Compiler\Tag\See;
 use Teak\Compiler\Tag\Since;
 use Teak\Compiler\Tag\Summary;
+use Teak\Compiler\Warnings;
 use Teak\Compiler\Heading;
 use Teak\Reflection\MethodReflection;
 
@@ -54,6 +55,8 @@ class Method implements CompilerInterface
         $contents = '';
 
         $name = $this->method->getName();
+
+        Warnings::getInstance()->setContext(ltrim($this->method->reflection->getFqsen()->__toString(), '\\'));
 
         if ($this->method->isDeprecated()) {
             $name = '~~' . $this->method->getName() . '~~';

@@ -4,8 +4,11 @@ namespace Teak\Console;
 
 use phpDocumentor\Reflection\File\LocalFile;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Teak\Compiler\Warnings;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -94,6 +97,12 @@ abstract class ReferenceGenerator extends Command
         }
 
         $output->writeln($message);
+
+        $errorOutput = $output instanceof ConsoleOutputInterface ? $output->getErrorOutput() : $output;
+
+        foreach (Warnings::getInstance()->flush() as $warning) {
+            $errorOutput->writeln('<comment>Warning: ' . OutputFormatter::escape($warning) . '</comment>');
+        }
 
         return 0;
     }

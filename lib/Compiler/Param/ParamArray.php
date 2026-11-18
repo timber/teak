@@ -2,9 +2,11 @@
 
 namespace Teak\Compiler\Param;
 
+use phpDocumentor\Reflection\DocBlock\Tags\InvalidTag;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use Teak\Compiler\CompilerInterface;
 use Teak\Compiler\SanitizeTrait;
+use Teak\Compiler\Warnings;
 
 /**
  * Class ParamArray
@@ -64,6 +66,14 @@ class ParamArray implements CompilerInterface
          * @var Param $param
          */
         foreach ($params as $param) {
+            if ($param instanceof InvalidTag) {
+                $error = $param->getException() ? $param->getException()->getMessage() : (string) $param;
+                Warnings::getInstance()->add('Invalid @param tag in array description - ' . trim($error));
+                $contents .= '<li>**[Invalid Tag]**<br>Error: '
+                    . htmlspecialchars(trim($error), ENT_NOQUOTES) . '</li>';
+                continue;
+            }
+
             $contents .= '<li>**' . $this->namePrefix . $param->getVariableName() . '**<br>';
             $contents .= $this->sanitizeTypeList($param->getType());
 
